@@ -1,0 +1,3 @@
+- Run as admin (管理者権限で実行してください)
+- Select unity dir (Unityプログラムファイルから、直接ファイルを書き換える場合はProgram Fileの中にある該当ファイルを選択してください。)
+- Create Licesne and PATCH (ライセンスを適用させ、確認)
