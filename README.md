@@ -3,8 +3,8 @@
 
 **開発環境**  
  - Visual Studio 2017 Enterprise  
- - Unity Professional 2017.2.0f3  
- - Windows10 Fall Creators Update適用済みPC  
+ - DJI SDK
+ - Windows 10 or Mac(文字コード注意)
   
   # 注意事項  
   開発環境を構築する際、非常に膨大なディスク領域を使用するのでご注意ください。  
