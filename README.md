@@ -22,3 +22,15 @@
   おもに、C / C++ がドローン動作にかかわるプログラミング言語  
   航空管制に関わる部分はpythonになります。  
   Pythonは現在、2系、3系と別れていますが使用するのは**Python 3系**となります。  
+    
+
+  # 開発環境の提供について  
+  Windows用  
+  URL : https://www.realvnc.com/download/file/viewer.files/VNC-Viewer-6.17.1113-Windows-64bit.exe
+
+  iOS用  
+  URL : https://itunes.apple.com/us/app/vnc-viewer/id352019548?mt=8  
+
+  Android用
+  URL : https://play.google.com/store/apps/details?id=com.realvnc.viewer.android  
+
