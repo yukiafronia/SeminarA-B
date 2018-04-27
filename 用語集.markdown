@@ -1,1 +1,2 @@
-
+# 用語集  
+- onboard SDK  
