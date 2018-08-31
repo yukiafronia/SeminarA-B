@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>ContactPage</title>
     <link href="https://fonts.googleapis.com/css?family=Bitter:400,700" rel="stylesheet"> 
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style01.css" rel="stylesheet">
     </head>
     <body id="about">
         <header>
             <div class="logo">
-                <a href="Login.html"><img src="images/logo.png" alt="SNAPPERS"></a>
+                <!--ここにロゴ入れたい-->
             </div>
             <nav>
                 <ul class="global-nav">
@@ -37,9 +37,9 @@
                   </tr>
                   <tr>
                     <th>アクセス</th>
-                    <td>・茅ケ崎駅（JR東海道本線、湘南新宿ライン）北口よりバス約25分<br>
-                        ・湘南台駅（小田急線、相鉄線、横浜市営地下鉄）西口よりバス約20分<br>
-                        ・香川駅（JR相模線）よりバス約15分　※駅→大学へ向かう場合</td>
+                    <td>・茅ケ崎駅、北口よりバス約25分<br>
+                        ・湘南台駅、西口よりバス約20分<br>
+                        ・香川駅よりバス約15分　※駅→大学へ向かう場合</td>
                   </tr>      
                 </table>
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3253.414538696067!2d139.4143516155951!3d35.37017325457501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601853b01b31e6c5%3A0x480d097df2a842de!2z44CSMjUzLTAwMDcg56We5aWI5bed55yM6IyF44O25bSO5biC6KGM6LC377yR77yR77yQ77yQ!5e0!3m2!1sja!2sjp!4v1534773440476" width="460" height="220" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -57,7 +57,7 @@
                       <dd><input type="tel"name="tel"class="tel"required></dd>
                       <dt>お問い合わせ種別</dt>
                       <dd>
-                        <select>
+                        <select name="type" class="type">
                           <option>ご依頼</option>
                           <option>使い方の質問</option>
                           <option>その他お問い合わせ</option>
@@ -69,10 +69,14 @@
                       <input type="radio"name="contact"value="お電話">お電話
                       </dd>
                       <dt>メッセージ</dt>
-                      <dd><textarea name="message"class="messege"></textarea></dd>
+                      <dd><textarea name="message"class="message"></textarea></dd>
                     </dl>
                     <button type="submit" class="btn">送信</button>
                   </form>
+                  <div class="attention">
+                    <p>※「<span class="required"></span>」のついている項目は必須項目です。<br>
+                    ※メッセージ送信後、48時間以内に担当者よりご連絡いたします。</p>
+                  </div>
                 </div>
               </section>
               
@@ -91,24 +95,28 @@
                 <h2 class="icon">Menber</h2>
                 <table>
                   <tr>
-                  <th>1997年5月</th>
-                  <td>文教大学湘南キャンパス情報学部情報システム学科3年</td>
+                  <th>平松　勇輝</th>
+                  <td>プロジェクトマネージャ</td>
                   </tr>
                   <tr>
-                  <th>1997年5月</th>
-                  <td>文教大学湘南キャンパス情報学部情報システム学科3年</td>
+                  <th>谷田部　亮太</th>
+                  <td>サブリーダ</td>
                   </tr>
                   <tr>
-                  <th>1997年5月</th>
-                  <td>文教大学湘南キャンパス情報学部情報システム学科3年</td>
+                  <th>橋本　和樹</th>
+                  <td>システム開発</td>
                   </tr>
                   <tr>
-                  <th>1997年5月</th>
-                  <td>文教大学湘南キャンパス情報学部情報システム学科3年</td>
+                  <th>古川　翔太</th>
+                  <td>システム開発</td>
                   </tr>
                   <tr>
-                  <th>1997年5月</th>
-                  <td>文教大学湘南キャンパス情報学部情報システム学科3年</td>
+                  <th>山尾　侑生</th>
+                  <td>システム開発</td>
+                  </tr>
+                  <tr>
+                  <th>塚田　一平</th>
+                  <td>資料作成・その他まとめ</td>
                   </tr>
                 </table>
               </section>
