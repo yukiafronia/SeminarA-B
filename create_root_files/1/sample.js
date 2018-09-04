@@ -55,7 +55,7 @@ var triangleCoords1 = [
 
 // Construct the polygon
 bermudaTriangle = new google.maps.Polygon({
-  paths: triangleCoords1,
+  paths: triangleCoords,
   strokeColor: "#FF0000",
   strokeOpacity: 0.8,
   strokeWeight: 2,
