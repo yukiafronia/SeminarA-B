@@ -1,46 +1,65 @@
+﻿<!DOCTYPE html>
+</div>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>アドレス登録</title>
+    <meta charset="utf-8"/>
+    <title>新規登録</title>
+    <link rel="stylesheet" type="text/css" href="css/style01.css"/>
 </head>
 <body>
 <?php
 
-$con = mysql_connect('192.168.11.4', 'pi', 'ras');
-if (!$con) {
-  exit('データベースに接続できませんでした。');
-}
+session_start();
 
-$result = mysql_select_db('phpdb', $con);
-if (!$result) {
-  exit('データベースを選択できませんでした。');
-}
+$sql = null;
+$stm = null;
+$dbh = null;
 
-$result = mysql_query('SET NAMES utf8', $con);
-if (!$result) {
-  exit('文字コードを指定できませんでした。');
-}
-
-$name   = $_REQUEST['name'];
-$mail = $_REQUEST['mail'];
-$tel  = $_REQUEST['tel'];
+$name = $_REQUEST['name'];
+$mail = $_REQUEST["mail"];
+$tel = $_REQUEST['tel'];
 $address = $_REQUEST['address'];
-$id_user = $_REQUEST['id_user'];
-$password = $_REQUEST['password'];
-$password2 = $_REQUEST['password2'];
-$id = $_REQUEST['id'];
+$id = $_REQUEST['id_user'];
+$pw = $_REQUEST["password"];
 
-$result = mysql_query("INSERT INTO address(name, mail, tel, address, id_user, password, password2, id) VALUES('$name', '$mail', '$tel', '$address', '$id_user', '$password', '$password2', '$id')", $con);
-if (!$result) {
-  exit('データを登録できませんでした。');
+$errorMessage = "";
+
+$user = 'pi';
+$password = 'rasraspberry';
+$dsn = 'mysql:dbname=zemi_project;host=localhost';
+
+try {
+
+    $dbh = new PDO($dsn, $user, $password);
+    //var_dump($dbh);
+    echo 'データベース' . $dbn . 'に接続しました';
+
+    $sql = "INSERT INTO `newuser` (`name`,`mail`,`tel`,`address`,`id`,`password`) VALUES ('$id','$pw','$adress')";
+    $stm = $dbh->query($sql);
+    // var_dump($stm);
+    // echo 'mail: ' . $mail
+    mb_language("Japanese");
+    mb_internal_encoding("UTF-8");
+
+
+}catch (PDOException $e) {
+    print('Error;' . $e->getMessage());
+    die();
 }
 
-$con = mysql_close($con);
-if (!$con) {
-  exit('データベースとの接続を閉じられませんでした。');
-}
+$dbh = null;
 
 ?>
-<p>登録が完了しました。<br /><a href="index.html">戻る</a></p>
+<font color=black>
+<div class="login">
+    <h1>登録が完了しました。</h1>
+    <form method="post" action="Newuser.html">
+        <p>
+            登録完了しました
+            <input type="submit" value="戻る"/>
+        </p>
+    </form>
+</div>
+</font>
 </body>
 </html>
