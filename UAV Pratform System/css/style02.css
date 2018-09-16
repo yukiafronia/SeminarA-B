@@ -129,31 +129,8 @@ footer small{
     padding: 30px;
 }
 
-form p{
-    font-size: 14px;
-}
-.form-title{
-    text-align: center;
-}
-.mail,.pass{
-    margin-bottom: 20px;
-}
-input[type="email"],
-input[type="password"] {
-    width: 400px;
-    padding: 4px;
-    font-size: 14px;
-}
-a:link { color: #ffffff; }
-a:visited { color: #ffffff; }
-a:active { color: #ff8000; }
-#about{
-  background-image: url(../images/bg-about.jpg);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-attachment: fixed;
-  background-size: 100% auto;
-}
+
+
 .main-center{
   width: 940px;
   margin: 0 auto;
@@ -190,26 +167,6 @@ h2{
 section{
   margin-bottom: 35px;
 }
-.career th{
-  width: 240px;
-  background-color: #f0f0f0;
-  padding: 12px 0;
-  border: 1px solid #cccccc;
-}
-.career td{
-  width: 660px;
-  padding: 12px 40px;
-  border:1px solid #cccccc;
-}
-table{
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-#index #wrap{
-  background-color: transparent;
-  margin-top: 0;
-  padding: 0;
-}
 #portfolio{
   background-image: url(../images/bg-portfolio.jpg);
   background-repeat: no-repeat;
@@ -238,44 +195,77 @@ table{
 .sidebar ul a{
   color: #33333;
 }
-
-a img:hover{
-  opacity: 0.8;
-}
-#contact{
+#login01{
   background-image: url(../images/bg-contact.jpg);
   background-repeat: no-repeat;
   background-position: center top;
   background-attachment: fixed;
   background-size: 100% auto;
 }
-.access table{
-  float: left;
+.table01{
+width: 100%;
+border-collapse: collapse;
+overflow-y:scroll;
 }
-.access th,
-.access td{
-  text-align: left;
-  vertical-align: top;
-  line-height: 2.5;
+.table01 th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
 }
-.access td{
-  padding-left: 30px;
+.table01 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
 }
-.access iframe{
-  width: 460px;
-  float: right;
-}
-.form{
+.form01{
   background-color: #eaeaea;
-  padding: 30px 50px;
+  padding: 30px 10px 10px 10px;
 }
-.form dl dt{
+.table02{
+width: 100%;
+border-collapse: collapse;
+overflow-y:scroll;
+}
+.table02 th{
+width: 20px;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.table02 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+.form02{
+  background-color: #eaeaea;
+  padding: 30px 10px 10px 10px;
+}
+#Setting{
+  background-image: url(../images/bg-contact.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: 100% auto;
+}
+.form03{
+  background-color: #eaeaea;
+  padding: 30px 10px 10px 10px;
+}
+.form03 dl dt{
   width: 165px;
   padding: 10px 0;
   float: left;
   clear: both;
 }
-.form dl dd{
+.form03 dl dd{
   padding: 10px 0;
 }
 .name{
@@ -302,7 +292,7 @@ a img:hover{
   width: 660px;
   height:  150px;
 }
-.form button{
+.form03 button{
   background-color: #009cd3;
   color: #ffffff;
   font-size: 20px;
@@ -317,7 +307,7 @@ a img:hover{
   margin: auto; 
   margin-left: 165px;
 }
-.form button:hover{
+.form03 button:hover{
   text-decoration: none;
   background-color: #ffffff;
   color: #009cd3;
@@ -327,21 +317,13 @@ a img:hover{
   content: "*";
   color: #ff0000;
 }
-.attention{
-  margin: 20px 0 0 165px;
-}
-
-.form01{
-  background-color: #eaeaea;
-  padding: 30px 50px;
-}
-.form01 dl dt{
+.form03 dl dt{
   width: 165px;
   padding: 10px 0;
   float: left;
   clear: both;
 }
-.form01 dl dd{
+.form03 dl dd{
   padding: 10px 0;
 }
 .Location{
@@ -360,3 +342,5 @@ width: 400px;
   width: 300px;
   height: 30px;
 }
+
+
