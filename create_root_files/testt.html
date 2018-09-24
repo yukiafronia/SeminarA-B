@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <script>
+      window.onload = insertData
+
+      // 表示したい json
+      var json = [
+        { column1: 'a1', column2: 'a2' },
+        { column1: 'b1', column2: 'b2' },
+        { column1: 'c1', column2: 'c2' },
+        { column1: 'd1', column2: 'd2' }
+      ]
+
+      function insertData () {
+        // 既存の table 要素から tbody を取得する
+        var tbody = document.querySelector('table tbody')
+
+        // tbody に tr を入れていく
+        json.forEach(function (row) {
+          var column1 = document.createElement('td')
+          column1.innerText = row.column1
+
+          var column2 = document.createElement('td')
+          column2.innerText = row.column2
+
+          var tr = document.createElement('tr')
+          tr.appendChild(column1)
+          tr.appendChild(column2)
+
+          tbody.appendChild(tr)
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr><th>column1</th><th>column2</th></tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </body>
+</html>

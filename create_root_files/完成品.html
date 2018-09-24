@@ -54,6 +54,18 @@ html,body{
 }
 </style>
 
+
+
+<script>
+function load() {
+  alert("load イベントが発生しました。");
+}
+
+window.onload = load;
+</script>
+
+
+
 <script type="text/javascript">
 
 
@@ -184,6 +196,8 @@ for(var i = 0; i <= rimit; i++){
 	}
 	x = x * -1
 }
+
+
 
 
 var myRootJ = JSON.stringify(myRoot);
@@ -322,7 +336,45 @@ function dist_calc(){
     $('#ruler').text("0");
   }
 
+
+
+
+
+
 </script>
+
+
+
+  <script>
+      /*ページ(DOM)読み込み後に実行*/
+      window.onload = function(){
+
+          //tbodyのIDを取得(この中で処理します)
+          var tbody = document.getElementById('tbodyID');
+
+          for (i = 0; i < 5; i++){
+              //tr エレメントを新規作成(ただ生成するだけ)
+              var tr = document.createElement('tr');
+              //列(td)用のループ
+              for (j = 0; j < 5; j++){
+                  //tdエレメントをを生成
+                  var td = document.createElement('td');
+                  //tdの中に入れたいモノをセット
+                  td.innerHTML = 'こんにちは' + j;
+                  alert(j);
+                  //生成したtdをtrにセット
+                  tbody.appendChild(td);
+              }//列用のループ閉じ
+              //tr エレメントをtbody内に追加(ここではじめて表示される)
+              tbody.appendChild(tr);
+          }//行用のループ閉じ
+
+      };
+  </script>
+
+
+
+
 </head>
 <body onload="initialize()">
 <div id="container">
@@ -350,5 +402,23 @@ function dist_calc(){
 </div>
 
 </div>
+
+
+
+  <table>
+  <thead>
+    <tr>
+      <td>項目1</td>
+      <td>項目2</td>
+      <td>項目3</td>
+    </tr>
+  </thead>
+  <tbody id="tbodyID">
+    <!-- ここをループ -->
+  </tbody>
+</table>
+
+
+
 </body>
 </html>
