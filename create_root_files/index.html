@@ -94,7 +94,93 @@ DY = 139.415712;
 
 KK = 8;
 
-<!--入力された座標から距離を計算-->
+
+
+
+
+//var myRootJ = JSON.stringify(myRoot);
+
+//console.log(myRootJ);
+
+/*
+
+<!--テスト用にいろいろ出力-->
+console.log(kyori_h);
+console.log(AB_kyori);
+console.log(CD_kyori);
+console.log(hiritsu);
+console.log(AB_k);
+console.log(CD_k);
+console.log(ABX_h);
+console.log(ABY_h);
+console.log(CDX_h);
+console.log(CDY_h);
+console.log(aryABX);
+console.log(aryABY);
+console.log(aryCDX);
+console.log(aryCDY);
+console.log(aryAB);
+console.log(aryCD);
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+var poly;
+var map;
+var cnt=0;
+var marker;
+var path;
+
+$(function(){
+	initialize();
+	$("#run").click(function(){
+		dist_calc();
+	});
+	$("#reset").click(function(){
+		reset();
+	});
+});
+
+	
+function initialize() {
+  var shiroi = new google.maps.LatLng(35.3309774, 139.4058813);
+  var myOptions = {
+    zoom: 15,
+    center: shiroi,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    draggableCursor: "default"
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+
+}
+
+function dist_calc(){
+
+	//2重で描画されないようにリセットする
+    if (poly) {
+      poly.setMap(null);
+    }
+    
+    $("#gps").val('');
+    $('#ruler').text("0");
+    $('#ruler1').text("0");
+
+
+
+	KK=document.js.txtb.value;
+
+	<!--入力された座標から距離を計算-->
 AB_kyori = Math.sqrt((BX-AX)*(BX-AX)+(BY-AY)*(BY-AY))*100000;
 CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
 
@@ -208,73 +294,10 @@ for(var i = 0; i <= rimit; i++){
 
 
 
-var myRootJ = JSON.stringify(myRoot);
-
-console.log(myRootJ);
-
-
-<!--テスト用にいろいろ出力-->
-console.log(kyori_h);
-console.log(AB_kyori);
-console.log(CD_kyori);
-console.log(hiritsu);
-console.log(AB_k);
-console.log(CD_k);
-console.log(ABX_h);
-console.log(ABY_h);
-console.log(CDX_h);
-console.log(CDY_h);
-console.log(aryABX);
-console.log(aryABY);
-console.log(aryCDX);
-console.log(aryCDY);
-console.log(aryAB);
-console.log(aryCD);
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-var poly;
-var map;
-var cnt=0;
-var marker;
-var path;
-
-$(function(){
-	initialize();
-	$("#run").click(function(){
-		dist_calc();
-	});
-	$("#reset").click(function(){
-		reset();
-	});
-});
-
-	
-function initialize() {
-  var shiroi = new google.maps.LatLng(35.3309774, 139.4058813);
-  var myOptions = {
-    zoom: 15,
-    center: shiroi,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    draggableCursor: "default"
-  };
-
-  map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-
-}
-
-function dist_calc(){
   var polyOptions = {
     strokeColor: '#FF3333',
     strokeOpacity: 0.8,
@@ -381,11 +404,6 @@ function dist_calc(){
 */
 
 
-function tbox1(){
-
-  KK=document.js.txtb.value;
-
-}
 
 
 //テキストボックスの文字を操作する
@@ -433,7 +451,11 @@ function clr(){
 		<!--<td><span style="font-size:20px;font-weight:bold;" id="time">0</span>時間</td>-->
 	</tr>
 </table>
-
+<p></p>
+<form name="js">
+飛行間隔：<input type="text" name="txtb" value=""><br>
+<!--<input type="button" value="消去" onclick="clr()"><br>-->
+</form>
 <p><input type="button" id="run"   value="描画"/>
 </p>
 <p><input type="button" id="reset"   value="リセット"/>
@@ -456,11 +478,6 @@ function clr(){
 -->
 
 
-<form name="js">
-飛行間隔：<input type="text" name="txtb" value=""><br>
-<input type="button" value="決定" onclick="tbox1()"><br>
-<input type="button" value="消去" onclick="clr()"><br>
-</form>
 
 
 </body>
