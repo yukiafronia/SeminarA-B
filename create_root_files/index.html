@@ -381,8 +381,27 @@ function dist_calc(){
 */
 
 
+function tbox1(){
+
+  KK=document.js.txtb.value;
+
+}
+
+
+//テキストボックスの文字を操作する
+function clr(){
+
+  document.js.txtb.value="";
+
+}
+
+
+
 
 </script>
+
+
+
 
 
 
@@ -435,6 +454,14 @@ function dist_calc(){
 
 
 -->
+
+
+<form name="js">
+飛行間隔：<input type="text" name="txtb" value=""><br>
+<input type="button" value="決定" onclick="tbox1()"><br>
+<input type="button" value="消去" onclick="clr()"><br>
+</form>
+
 
 </body>
 </html>
