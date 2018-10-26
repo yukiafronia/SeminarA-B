@@ -102,13 +102,14 @@ footer small{
   margin-top: 20px;
   border-radius: 5px;
   border: 3px solid #009cd3;
-  margin: auto; 
+  margin: auto;
 }
 .btn a:hover{
   text-decoration: none;
   background-color: #ffffff;
   color: #009cd3;
 }
+
 #index footer{
   width: 960px;
   margin: 0 auto;
@@ -117,7 +118,7 @@ footer small{
   background-color: transparent;
 }
 #index{
-  background-image: url(../images/bg-index.jpg);
+  background-image: url(../images/top2.jpg);
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
@@ -127,32 +128,6 @@ footer small{
     width: 400px;
     margin: 30px auto;
     padding: 30px;
-}
-
-form p{
-    font-size: 14px;
-}
-.form-title{
-    text-align: center;
-}
-.mail,.pass{
-    margin-bottom: 20px;
-}
-input[type="email"],
-input[type="password"] {
-    width: 400px;
-    padding: 4px;
-    font-size: 14px;
-}
-a:link { color: #ffffff; }
-a:visited { color: #ffffff; }
-a:active { color: #ff8000; }
-#about{
-  background-image: url(../images/bg-about.jpg);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-attachment: fixed;
-  background-size: 100% auto;
 }
 .main-center{
   width: 940px;
@@ -190,26 +165,6 @@ h2{
 section{
   margin-bottom: 35px;
 }
-.career th{
-  width: 240px;
-  background-color: #f0f0f0;
-  padding: 12px 0;
-  border: 1px solid #cccccc;
-}
-.career td{
-  width: 660px;
-  padding: 12px 40px;
-  border:1px solid #cccccc;
-}
-table{
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-#index #wrap{
-  background-color: transparent;
-  margin-top: 0;
-  padding: 0;
-}
 #portfolio{
   background-image: url(../images/bg-portfolio.jpg);
   background-repeat: no-repeat;
@@ -238,12 +193,147 @@ table{
 .sidebar ul a{
   color: #33333;
 }
-
-a img:hover{
-  opacity: 0.8;
+#login01{
+  background-image: url(../images/bg-contact.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: 100% auto;
+}
+.table01{
+width: 100%;
+border-collapse: collapse;
+overflow-y:scroll;
+}
+.table01 th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.table01 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+.form01{
+  background-color: #eaeaea;
+  padding: 30px 10px 10px 10px;
+}
+.table02{
+width: 100%;
+border-collapse: collapse;
+overflow-y:scroll;
+}
+.table02 th{
+width: 20px;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.table02 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+.form02{
+  background-color: #eaeaea;
+  padding: 10px 10px 10px 10px;
 }
 
-
-
-
-
+#Setting{
+  background-image: url(../images/bg-contact.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: 100% auto;
+}
+.form03{
+  background-color: #eaeaea;
+  padding: 10px 10px 10px 10px;
+}
+.form03 dl dt{
+  width: 165px;
+  padding: 10px 0;
+  float: left;
+  clear: both;
+}
+.form03 dl dd{
+  padding: 10px 0;
+}
+.name{
+  width: 300px;
+  height: 30px;
+}
+.email{
+  width: 300px;
+  height: 30px;
+}
+.tel{
+  width: 300px;
+  height: 30px;
+}
+.type01{
+  width: 180px;
+  height: 30px;
+}
+.message{
+  width: 500px;
+  height:  20px;
+}
+.form03 button{
+  background-color: #009cd3;
+  color: #ffffff;
+  font-size: 20px;
+  font-family: 'Bitter', serif;
+  width: 120px;
+  display: block;
+  text-align: center;
+  line-height: 50px;
+  margin-top: 20px;
+  border-radius: 5px;
+  border: 3px solid #009cd3;
+  margin: auto;
+  margin-left: 165px;
+}
+.form03 button:hover{
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #009cd3;
+  cursor: pointer;
+}
+.required:after{
+  content: "*";
+  color: #ff0000;
+}
+.form03 dl dt{
+  width: 165px;
+  padding: 10px 0;
+  float: left;
+  clear: both;
+}
+.form03 dl dd{
+  padding: 10px 0;
+}
+.Location{
+width: 400px;
+  height: 30px;
+}
+.id{
+  width: 300px;
+  height: 30px;
+}
+.password{
+  width: 300px;
+  height: 30px;
+}
+.passwordConfirm{
+  width: 300px;
+  height: 30px;
+}
