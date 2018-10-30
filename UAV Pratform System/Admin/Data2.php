@@ -1,9 +1,9 @@
 <?php
 require_once("util.php");
-$user = 'root';
-$password = 'toor';
+$user = 'b6p31074';
+$password = 'Bunkyo_1201';
 $dbName = 'userData';
-$host　= 'localhost';
+$host　= '202.48.48.101';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 ?>
 <!DOCTYPE html>

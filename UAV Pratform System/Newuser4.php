@@ -2,21 +2,19 @@
 require 'password.php';   // password_hash()はphp 5.5.0以降の関数のため、バージョンが古くて使えない場合に使用
 // セッション開始
 session_start();
-
-$db['host'] = "localhost";  // DBサーバのURL
-$db['user'] = "xampp";  // ユーザー名
-$db['pass'] = "xampp_sqlserver";  // ユーザー名のパスワード
-$db['dbname'] = "zemi_project";  // データベース名
+$db['host'] = "202.48.48.101";  // DBサーバのURL
+$db['user'] = "root";  // ユーザー名
+$db['pass'] = "Yukiafronia1102";  // ユーザー名のパスワード
+$db['dbname'] = "userData";  // データベース名
 
 // エラーメッセージ、登録完了メッセージの初期化
 $errorMessage = "";
 $signUpMessage = "";
 $errorMessage_z = "";
-
 // ログインボタンが押された場合
 if (isset($_POST["signUp"])) {
     // 1. ユーザIDの入力チェック
-    if (empty($_POST["username"])) {  // 値が空のとき
+    if (empty($_POST["name"])) {  // 値が空のとき
         $errorMessage = 'ユーザーIDが未入力です。';
     } else if (empty($_POST["password"])) {
         $errorMessage = 'パスワードが未入力です。';
@@ -29,9 +27,8 @@ if (isset($_POST["signUp"])) {
     } else if (empty($_POST["Location"])) {
         $errorMessage = '住所が未入力です。';
     }
-
     try {
-        $username = $_POST["username"];
+        $username = $_POST["name"];
         $password = $_POST["password"];
         $email = $_POST["email"];
 // 接続
@@ -43,10 +40,8 @@ if (isset($_POST["signUp"])) {
         $pdoa = new PDO($dsna, $username, $password, $options);
 // プリペアドステートメントを用意
         $stmta = $pdoa->prepare('select count(*) as cnt from user where email=?');
-
 // 「?」の部分に文字列として安全に入力をあてはめて実行
         $stmta->execute([$email]);
-
 // COUNTなので結果は1行，さらにその1列目を取得
 // 文字列なので一応整数型にキャストしておく
         $count = (int)$stmta->fetchColumn();
@@ -56,14 +51,11 @@ if (isset($_POST["signUp"])) {
         } else{
             $errorMessage_z = "{$count} 個の重複がありました";
         }
-
     } catch (PDOException $e) {
         $error = $e->getMessage();
-
         //$e->getMessage() でエラー内容を参照可能（デバッグ時のみ表示）
         //echo $e->getMessage();
     }
-
 //    try{
 //        $username = $_POST["username"];
 //        $password = $_POST["password"];
@@ -87,27 +79,21 @@ if (isset($_POST["signUp"])) {
 //    } catch (PDOException $e) {
 //        $error = $e->getMessage();
 //    }
-
-    if (!empty($_POST["username"]) && !empty($_POST["password"]) && !empty($_POST["password2"]) && $_POST["password"] === $_POST["password2"]&& !empty($_POST["email"])&& !empty($_POST["tel"])&& !empty($_POST["Location"])) {
+    if (!empty($_POST["name"]) && !empty($_POST["password"]) && !empty($_POST["password2"]) && $_POST["password"] === $_POST["password2"]&& !empty($_POST["email"])&& !empty($_POST["tel"])&& !empty($_POST["Location"])) {
         // 入力したユーザIDとパスワードを格納
-        $username = $_POST["username"];
+        $username = $_POST["name"];
         $password = $_POST["password"];
         $email = $_POST["email"];
         $tel = $_POST["tel"];
         $Location = $_POST["Location"];
-
         // 2. ユーザIDとパスワードが入力されていたら認証する
         $dsn = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
-
         // 3. エラー処理
         try {
             $pdo = new PDO($dsn, $db['user'], $db['pass'], array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
-
-            $stmt = $pdo->prepare("INSERT INTO user (username,password,email,tel,Location) VALUES (?, ?, ?, ?, ?)");
-
+            $stmt = $pdo->prepare("INSERT INTO user (name,password,email,tel,Location) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute(array($username, password_hash($password, PASSWORD_DEFAULT),$email, $tel, $Location));  // パスワードのハッシュ化を行う（今回は文字列のみなのでbindValue(変数の内容が変わらない)を使用せず、直接excuteに渡しても問題ない）
             $userid = $pdo->lastinsertid();  // 登録した(DB側でauto_incrementした)IDを$useridに入れる
-
             $signUpMessage = '登録が完了しました。あなたの登録IDは '. $userid. ' です。パスワードは '. $password. ' です。';  // ログイン時に使用するIDとパスワード
         } catch (PDOException $e) {
             $errorMessage = 'データベースエラー';
@@ -117,7 +103,6 @@ if (isset($_POST["signUp"])) {
     } else if($_POST["password"] != $_POST["password2"]) {
         $errorMessage = 'パスワードに誤りがあります。';
     }
-
 }
 ?>
 
@@ -156,8 +141,8 @@ if (isset($_POST["signUp"])) {
 
                         <table>
                             <tr>
-                                <td><label for="username">ユーザー名</label></td>
-                                <td><input type="text" id="username" name="username" placeholder="ユーザー名を入力" value="<?php if (!empty($_POST["username"])) {echo htmlspecialchars($_POST["username"], ENT_QUOTES);} ?>"></td>
+                                <td><label for="name">ユーザー名</label></td>
+                                <td><input type="text" id="name" name="name" placeholder="ユーザー名を入力" value="<?php if (!empty($_POST["name"])) {echo htmlspecialchars($_POST["name"], ENT_QUOTES);} ?>"></td>
                             </tr>
                             <tr>
                                 <td><label for="password">パスワード</label></td>
