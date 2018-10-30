@@ -114,7 +114,7 @@ if (isset($_POST["login"])) {
                 <br><br>
                 <input type="submit" id="login" name="login" value="Login">
                 <br>
-                <center><u><p><a href="Newuser2.php">新規登録はこちらから</a></p></u></center>
+                <center><u><p><a href="Newuser4.php">新規登録はこちらから</a></p></u></center>
 
   </form>
 
