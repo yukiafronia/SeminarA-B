@@ -69,7 +69,7 @@ $UserLocation = $value["Location"];
             </div>
             <nav>
                <ul class="global-nav">
-                    <li><a href="Data.html">Data</a></li>
+                    <li><a href="Data.php">Data</a></li>
                     <li><a href="Login1.php">Setting</a></li>
                     <li><a href="logout.php">Log off</a></li>
                 </ul>

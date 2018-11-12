@@ -1,7 +1,7 @@
 <?php
 require_once("util.php");
-$user = 'b6p31074';
-$password = 'Bunkyo_1201';
+$user = 'root';
+$password = 'Yukiafronia1102';
 $dbName = 'userData';
 $host　= '202.48.48.101';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";

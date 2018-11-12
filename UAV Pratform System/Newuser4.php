@@ -6,7 +6,6 @@ $db['host'] = "202.48.48.101";  // DBサーバのURL
 $db['user'] = "root";  // ユーザー名
 $db['pass'] = "Yukiafronia1102";  // ユーザー名のパスワード
 $db['dbname'] = "userData";  // データベース名
-
 // エラーメッセージ、登録完了メッセージの初期化
 $errorMessage = "";
 $signUpMessage = "";

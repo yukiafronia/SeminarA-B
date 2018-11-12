@@ -92,7 +92,7 @@ if (isset($_POST["login"])) {
             </div>
             <nav>
                 <ul class="global-nav">
-                    <li><a href="Top.html">Home</a></li>
+                    <li><a href="Top.php">Home</a></li>
                     <li><a href="About.html">About</a></li>
                     <li><a href="Contact.html">Contact</a></li>
                 </ul>
