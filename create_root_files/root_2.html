@@ -215,7 +215,7 @@ CAY_h = Math.cos(CA_k)/(100000/KK);
 DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
 DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
 
-console.log(DBY_h);
+//console.log(DBY_h);
 
 <!--距離から配列の数を計算-->
 kyori_h = Math.ceil(AB_kyori / KK);
@@ -284,13 +284,23 @@ while(i2 <= kyori_h2){
 
 	if(aryCAX[i2] > AX)aryCAX[i2] = AX;
 	if(aryCAY[i2] > AY)aryCAY[i2] = AY;
-	if(aryDBX[i2] > BX)aryDBX[i2] = BX;
+	if(aryDBX[i2] > BX)aryDBX[i2] = BX;//おかしい
 	if(aryDBY[i2] > BY)aryDBY[i2] = BY;
 
-	console.log(aryCAX[i2]);
+	//console.log(aryCAX[i2]);
 	i2++;
 
 }
+
+console.log(DBX_h);
+console.log(CAX_h);
+
+
+console.log(aryCAX);
+console.log(aryCAY);
+
+console.log(aryDBX);
+console.log(aryDBY);
 
 
 for(var i = 0; i <= kyori_h; i++) {
@@ -361,6 +371,7 @@ for(var i = 0; i <= rimit; i++){
 	x = x * -1;
 }
 
+/*
 console.log(myRoot);
 
 console.log(aryDBX);
@@ -372,7 +383,11 @@ console.log(aryABX);
 
 console.log(aryDB);
 console.log(aryCA);
+*/
+
+
 var myRoot2 = new Array(rimit2);
+
 console.log(myRoot2);
 
 for(var i = 0; i <= rimit2; i++){
@@ -397,9 +412,12 @@ for(var i = 0; i <= rimit2; i++){
 
 
 
-
+console.log(aryCA);
+console.log(aryDB);
 
 console.log(myRoot2);
+
+console.log(myRoot);
 
 
   var polyOptions = {
@@ -444,8 +462,8 @@ console.log(myRoot2);
 		bounds.extend(wLatLng);
 		latLngArry[i] = wLatLng;
 	}
-	console.log(bounds);
-	console.log(wLatLng);
+	//console.log(bounds);
+	//console.log(wLatLng);
 	map.fitBounds(bounds);
 
 
