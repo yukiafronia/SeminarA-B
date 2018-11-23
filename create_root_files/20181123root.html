@@ -1,0 +1,353 @@
+<html>
+<head>
+<title>自動ルート作成</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- Google Maps APIの読み込み -->
+
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBboi4Xm_7zQ9kOZtCeuT-tMG-Q5HR9YLY&sensor=false&libraries=geometry"></script>
+
+
+<style>
+html,body{
+	margin: 0;
+	font-size:small;
+	font-family:meiryo;
+}
+#map-canvas{
+	width:79%;
+	height:100%;
+	float:left;
+}
+#menu{
+	width:20%;
+	height:100%;
+	background-color:#ffffff;
+	padding-left:10px;
+	float:left;
+}
+#gps{
+	font-size:12px;
+	width:250px;
+	height:300px;
+}
+#dist{
+	border:1px solid #ccc;
+	width:150px;
+	margin-top:20px;
+}
+#dist th{ 
+	background-color:#e0e0e0; 
+	/*border:1px solid #ccc; */
+	text-align:center; 
+	width:146px;
+}
+#dist td{ 
+	border:1px solid #ccc;
+	text-align:center; 
+	width:146px;
+	height:40px;
+}
+#ex{
+	font-size:12px;
+	width:240px;
+	border:1px solid #cccccc;
+	padding:5px;
+	background-color:#f0f0f0; 
+}
+</style>
+
+
+
+<script>
+function load() {
+  alert("load イベントが発生しました。");
+}
+
+window.onload = load;
+</script>
+
+
+
+<script type="text/javascript">
+
+
+
+var AX,AY,BX,BY,CX,CY,DX,DY,KK,CA_kyori,DB_kyori,hiritsu2,CA_k,DB_k,CAX_h,CAY_h,DBX_h,DBY_h,kyori_h2;
+
+
+
+
+
+<!--座標を入力（DBから取得できるようにする予定）-->
+AX = 35.369566;
+AY = 139.416746;
+BX = 35.370953;
+BY = 139.416907;
+CX = 35.369529;
+CY = 139.41531;
+DX = 35.371196;
+DY = 139.415712;
+
+<!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
+
+KK = 8;
+
+
+var poly;
+var map;
+var cnt=0;
+var marker;
+var path;
+
+$(function(){
+	initialize();
+	$("#run").click(function(){
+		dist_calc();
+	});
+	$("#reset").click(function(){
+		reset();
+	});
+});
+
+	
+function initialize() {
+  var shiroi = new google.maps.LatLng(35.3309774, 139.4058813);
+  var myOptions = {
+    zoom: 15,
+    center: shiroi,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    draggableCursor: "default"
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+
+}
+
+function dist_calc(){
+
+	//2重で描画されないようにリセットする
+    if (poly) {
+      poly.setMap(null);
+    }
+    
+    $("#gps").val('');
+    $('#ruler').text("0");
+    $('#ruler1').text("0");
+
+
+
+
+
+	KK=document.js.txtb.value;
+
+
+
+
+
+CA_kyori = Math.sqrt((AX-CX)*(AX-CX)+(AY-CY)*(AY-CY))*100000;
+DB_kyori = Math.sqrt((BX-DX)*(BX-DX)+(BY-DY)*(BY-DY))*100000;
+
+hiritsu2 = DB_kyori / CA_kyori;
+
+CA_k = Math.atan2(AX-CX,AY-CY);
+DB_k = Math.atan2(BX-DX,BY-DY);
+
+CAX_h = Math.sin(CA_k)/(100000/KK);
+CAY_h = Math.cos(CA_k)/(100000/KK);
+DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
+DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
+
+kyori_h2 = Math.ceil(CA_kyori / KK);
+
+var aryCAX = new Array(kyori_h2);
+var aryCAY = new Array(kyori_h2);
+var aryDBX = new Array(kyori_h2);
+var aryDBY = new Array(kyori_h2);
+
+var aryCA = new Array(kyori_h2);
+var aryDB = new Array(kyori_h2);
+
+var i2 = 1;
+
+aryCAX[0] = CX;
+aryCAY[0] = CY;
+aryDBX[0] = DX;
+aryDBY[0] = DY;
+
+while(i2 <= kyori_h2){
+	aryCAX[i2] = aryCAX[i2-1]+CAX_h;
+	aryCAY[i2] = aryCAY[i2-1]+CAY_h;
+	aryDBX[i2] = aryDBX[i2-1]+DBX_h;
+	aryDBY[i2] = aryDBY[i2-1]+DBY_h;
+
+	if(aryCAX[i2] > AX)aryCAX[i2] = AX;
+	if(aryCAY[i2] > AY)aryCAY[i2] = AY;
+	if(aryDBX[i2] > BX)aryDBX[i2] = BX;
+	if(aryDBY[i2] > BY)aryDBY[i2] = BY;
+
+	//console.log(aryCAX[i2]);
+	i2++;
+}
+
+console.log(CA_kyori);
+console.log(DB_kyori);
+
+console.log(hiritsu2);
+
+console.log(CA_k);
+console.log(DB_k);
+console.log(CAX_h);
+console.log(CAY_h);
+console.log(DBX_h);
+console.log(DBY_h);
+
+console.log(kyori_h2);
+
+console.log(aryCAX);
+console.log(aryCAY);
+console.log(aryDBX);
+console.log(aryDBY);
+
+console.log(aryCA);
+console.log(aryDB);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+	var len = 0;
+	for(var i=0; i < myRoot2.length; i++){
+		if((typeof myRoot2[i] === "undefined") || (myRoot2[i] === "")){
+			break;
+		}else{
+			len ++;
+		}
+	}
+
+	path = poly.getPath();
+	var bounds = new google.maps.LatLngBounds();
+	var latLngArry = [];
+	for(var i=0; i < len; i++){
+		var wLatLng = new google.maps.LatLng(myRoot2[i].split(",")[0], myRoot2[i].split(",")[1]);
+		path.push(wLatLng);
+		bounds.extend(wLatLng);
+		latLngArry[i] = wLatLng;
+	}
+	//console.log(bounds);
+	//console.log(wLatLng);
+	map.fitBounds(bounds);
+
+
+
+	// Googleの関数を使用した距離計算
+	//var dist = 0;
+	/*
+	for(var i=1; i < len; i++){ 
+		dist += google.maps.geometry.spherical.computeDistanceBetween(latLngArry[i - 1], latLngArry[i]);
+	}
+	*/
+	var dist = google.maps.geometry.spherical.computeLength(path);
+	dist = Math.round(dist)/1000.0
+	$("#ruler").text(dist);
+	$("#ruler1").text(KK);
+}
+  // Clear all overlays, reset the array of points, and hide the chart
+  function reset() {
+    if (poly) {
+      poly.setMap(null);
+    }
+    
+    $("#gps").val('');
+    $('#ruler').text("0");
+    $('#ruler1').text("0");
+  }
+
+
+
+
+
+
+//テキストボックスの文字を操作する
+function clr(){
+
+  document.js.txtb.value="";
+
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body onload="initialize()">
+<div id="container">
+<div id="map-canvas"></div>
+<div id="menu">
+<!--<p>
+距離：<input type="text" id="dist" value="" size="12" style="text-align: right;">&nbsp;Km
+</p>-->
+<table id="dist">
+	<tr>
+		<th>総飛行距離</th>
+		<!--<th>時間</th>-->
+	</tr>
+	<tr>
+		<td><span style="font-size:20px;font-weight:bold;" id="ruler">0</span>km</td>
+		<!--<td><span style="font-size:20px;font-weight:bold;" id="time">0</span>時間</td>-->
+	</tr>
+	<tr>
+		<th>飛行間隔</th>
+		<!--<th>時間</th>-->
+	</tr>
+	<tr>
+		<td><span style="font-size:18px;font-weight:bold;" id="ruler1">0</span>m</td>
+		<!--<td><span style="font-size:20px;font-weight:bold;" id="time">0</span>時間</td>-->
+	</tr>
+</table>
+<p></p>
+<form name="js">
+飛行間隔：<input type="text" name="txtb" value=""><br>
+<!--<input type="button" value="消去" onclick="clr()"><br>-->
+</form>
+<p><input type="button" id="run"   value="描画"/>
+</p>
+<p><input type="button" id="reset"   value="リセット"/>
+</p>
+
+</div>
+
+</div>
+
+
+
+
+
+
+</body>
+</html>
