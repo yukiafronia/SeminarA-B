@@ -74,9 +74,6 @@ window.onload = load;
 
 
 
-
-
-
 var KK,AX,AY,BX,BY,CX,CY,DX,DY,AB_kyori,CD_kyori,kyori_h,
 hiritsu,ABX_h,ABY_h,CDX_h,CDY_h,AB_k,CD_k;
 
@@ -98,9 +95,6 @@ DY = 139.415712;
 <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
 
 KK = 8;
-
-
-
 
 
 //var myRootJ = JSON.stringify(myRoot);
@@ -390,25 +384,46 @@ var myRoot2 = new Array(rimit2);
 
 console.log(myRoot2);
 
-for(var i = 0; i <= rimit2; i++){
-	if(x2 == 1){
-		myRoot2[i] = aryCA[car];
-		car++;
-		i++;
-		if(i > rimit2)break;
-		myRoot2[i] = aryCA[car];
-		car++;
+
+
+check1 = document.form1.Radio1.checked;
+check2 = document.form1.Radio2.checked;
+check3 = document.form1.Radio3.checked;
+
+
+
+
+if (check1 == true) {
+	for(var i = 0; i <= rimit2; i++){
+		if(x2 == 1){
+			myRoot2[i] = aryCA[car];
+			car++;
+			i++;
+			if(i > rimit2)break;
+			myRoot2[i] = aryCA[car];
+			car++;
+		}
+		if(x2 == -1){
+			myRoot2[i] = aryDB[dbr];
+			dbr++;
+			i++;
+			if(i > rimit2)break;
+			myRoot2[i] = aryDB[dbr];
+			dbr++;
+		}
+		x2 = x2 * -1;
 	}
-	if(x2 == -1){
-		myRoot2[i] = aryDB[dbr];
-		dbr++;
-		i++;
-		if(i > rimit2)break;
-		myRoot2[i] = aryDB[dbr];
-		dbr++;
-	}
-	x2 = x2 * -1;
 }
+
+else if (check2 == true) {
+	alert("2");
+}
+else if (check3 == true) {
+	alert("3");
+}
+
+
+
 
 
 
@@ -575,9 +590,20 @@ function clr(){
 </table>
 <p></p>
 <form name="js">
-飛行間隔：<input type="text" name="txtb" value=""><br>
+飛行間隔：<input type="text" name="txtb" value="10"><br>
 <!--<input type="button" value="消去" onclick="clr()"><br>-->
 </form>
+
+<form name="form1" action="">
+    <input id="Radio1" name="RadioGroup1" type="radio" checked>
+      <label for="Radio1">一定間隔</label><br/>
+    <input id="Radio2" name="RadioGroup1" type="radio">
+      <label for="Radio2">ランダム</label><br />
+    <input id="Radio3" name="RadioGroup1" type="radio">
+      <label for="Radio3">ラジオボタン 要素3</label><br />
+  </form>
+
+
 <p><input type="button" id="run"   value="描画"/>
 </p>
 <p><input type="button" id="reset"   value="リセット"/>
