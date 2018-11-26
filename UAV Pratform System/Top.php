@@ -3,9 +3,9 @@ require 'password.php';   // password_verfy()はphp 5.5.0以降の関数のた�
 // セッション開始
 session_start();
 
-$db['host'] = "localhost";  // DBサーバのURL
+$db['host'] = "202.48.48.101";  // DBサーバのURL
 $db['user'] = "root";  // ユーザー名
-$db['pass'] = "toor";  // ユーザー名のパスワード
+$db['pass'] = "Yukiafronia1102";  // ユーザー名のパスワード
 $db['dbname'] = "userData";  // データベース名
 
 // エラーメッセージの初期化
@@ -108,13 +108,13 @@ if (isset($_POST["login"])) {
 	    <form id="loginForm" name="loginForm" action="" method="POST">
 
                 <div><font color="#ff0000"><?php echo htmlspecialchars($errorMessage, ENT_QUOTES); ?></font></div>
-                <label for="userid"><br></label><input type="userid" id="userid" name="userid" placeholder="ユーザーIDを入力" value=""size="60">
+                <label for="userid"><br></label><input type="userid" id="userid" name="userid" placeholder="メールアドレスを入力" value=""size="60">
                 <br>
                 <label for="password"><br></label><input type="password" id="password" name="password" value="" placeholder="パスワードを入力">
                 <br><br>
                 <input type="submit" id="login" name="login" value="Login">
                 <br>
-                <center><u><p><a href="Newuser4.php">新規登録はこちらから</a></p></u></center>
+                <center><u><p><a href="Newuser1.php"class="linkB">新規登録はこちらから</a></p></u></center>
 
   </form>
 

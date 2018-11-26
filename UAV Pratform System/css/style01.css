@@ -102,7 +102,7 @@ footer small{
   margin-top: 20px;
   border-radius: 5px;
   border: 3px solid #009cd3;
-  margin: auto; 
+  margin: auto;
 }
 .btn a:hover{
   text-decoration: none;
@@ -337,7 +337,7 @@ a img:hover{
   margin-top: 20px;
   border-radius: 5px;
   border: 3px solid #009cd3;
-  margin: auto; 
+  margin: auto;
   margin-left: 165px;
 }
 .form button:hover{
@@ -383,3 +383,7 @@ width: 400px;
   width: 300px;
   height: 30px;
 }
+a.linkA:link{color:black;}
+a.linkA:visited { color:black;}
+a.linkB:link{color:white;}
+a.linkB:visited { color:white;}
