@@ -6,7 +6,7 @@
 <!-- Google Maps APIの読み込み -->
 
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBboi4Xm_7zQ9kOZtCeuT-tMG-Q5HR9YLY&sensor=false&libraries=geometry"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBboi4Xm_7zQ9kOZtCeuT-tMG-Q5HR9YLY&sensor=false&libraries=geometry&callback_initMap"></script>
 
 
 <style>
@@ -86,7 +86,7 @@ var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
 AX = 35.369566;
 AY = 139.416746;
 BX = 35.371199;
-BY = 139.416907;
+BY = 139.414907;
 CX = 35.369529;
 CY = 139.41531;
 DX = 35.371196;
@@ -98,6 +98,12 @@ KK = 8;
 
 
 KKK = 10;
+
+//集中飛行するエリアの座標を格納する変数
+var ss = new Array(5);
+var ss_count = 0;
+
+console.log(ss);
 
 
 //var myRootJ = JSON.stringify(myRoot);
@@ -130,18 +136,15 @@ console.log(aryCD);
 
 
 
-
-
-
-
-
-
-
 var poly;
 var map;
 var cnt=0;
 var marker;
 var path;
+
+
+var poly1;
+var path1;
 
 $(function(){
 	initialize();
@@ -164,8 +167,83 @@ function initialize() {
   };
 
   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+      google.maps.event.addListener(map, 'click', mylistener);
 
 }
+
+
+
+
+//クリックした地点の座標を配列へ入れる
+
+    function mylistener(event) {
+
+    	if(ss_count >= 4){
+    		ss = [5];
+    		ss_count = 0;
+    	}
+
+    	ss[ss_count] = event.latLng.lat() + ',' + event.latLng.lng();
+     	ss_count++;
+
+      	document.getElementById("show_lat").innerHTML = event.latLng.lat();
+     	document.getElementById("show_lng").innerHTML = event.latLng.lng();
+
+     	if(ss_count == 4){
+     		ss[ss_count] = ss[0];
+     		poly1.setMap(null);
+     	}
+
+     	console.log(ss_count);
+
+     	console.log(ss);
+
+	var polyOptions1 = {
+			strokeColor: '#3333FF',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly1 = new google.maps.Polyline(polyOptions1);
+		poly1.setMap(map);
+
+
+		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+		var len1 = 0;
+		for(var i=0; i < ss.length; i++){
+			if((typeof ss[i] === "undefined") || (ss[i] === "")){
+				break;
+			}else{
+				len1 ++;
+			}
+		}
+
+		path1 = poly1.getPath();
+		var bounds1 = new google.maps.LatLngBounds();
+		var latLngArry1 = [];
+		for(var i=0; i < len1; i++){
+			var wLatLng = new google.maps.LatLng(ss[i].split(",")[0], ss[i].split(",")[1]);
+			path1.push(wLatLng);
+			bounds1.extend(wLatLng);
+			latLngArry1[i] = wLatLng;
+		}
+		map.fitBounds(bounds1);
+
+
+		var dist1 = google.maps.geometry.spherical.computeLength(path1);
+		dist1 = Math.round(dist1)/1000.0
+
+		console.log(dist1);
+
+		$("#ruler").text(dist1);
+		$("#ruler1").text(KK);
+
+
+
+
+    }
+
+
+
 
 function dist_calc(){
 
@@ -181,6 +259,7 @@ function dist_calc(){
 
     //テキストボックスから飛行間隔を取得
 	KK = document.js.txtb.value;
+	//テキストボックスから飛行距離を取得
 	KKK = document.js.txtc.value; 
 
 
@@ -290,6 +369,8 @@ while(i2 <= kyori_h2){
 
 }
 
+/*
+
 console.log(DBX_h);
 console.log(CAX_h);
 
@@ -299,6 +380,9 @@ console.log(aryCAY);
 
 console.log(aryDBX);
 console.log(aryDBY);
+
+
+*/
 
 /*謎の式
 
@@ -380,6 +464,7 @@ console.log(aryCA);
 check1 = document.form1.Radio1.checked;
 check2 = document.form1.Radio2.checked;
 check3 = document.form1.Radio3.checked;
+check4 = document.form1.Radio4.checked;
 
 
 
@@ -537,6 +622,47 @@ else if (check3 == true) {
 
 }
 
+else if(check4 == true){
+	var polyOptions = {
+			strokeColor: '#FF3333',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly = new google.maps.Polyline(polyOptions);
+		poly.setMap(map);
+
+
+		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+		var len = 0;
+		for(var i=0; i < ss.length; i++){
+			if((typeof ss[i] === "undefined") || (ss[i] === "")){
+				break;
+			}else{
+				len ++;
+			}
+		}
+
+		path = poly.getPath();
+		var bounds = new google.maps.LatLngBounds();
+		var latLngArry = [];
+		for(var i=0; i < len; i++){
+			var wLatLng = new google.maps.LatLng(ss[i].split(",")[0], ss[i].split(",")[1]);
+			path.push(wLatLng);
+			bounds.extend(wLatLng);
+			latLngArry[i] = wLatLng;
+		}
+		map.fitBounds(bounds);
+
+
+		var dist = google.maps.geometry.spherical.computeLength(path);
+		dist = Math.round(dist)/1000.0
+
+		console.log(dist);
+
+		$("#ruler").text(dist);
+		$("#ruler1").text(KK);
+}
+
 
 
 
@@ -665,6 +791,8 @@ function clr(){
       <label for="Radio2">一定間隔（横方向）</label><br />
     <input id="Radio3" name="RadioGroup1" type="radio">
       <label for="Radio3">ランダム</label><br />
+    <input id="Radio4" name="RadioGroup1" type="radio">
+      <label for="Radio4">集中飛行</label><br />
   </form>
 
 
@@ -672,6 +800,13 @@ function clr(){
 </p>
 <p><input type="button" id="reset"   value="リセット"/>
 </p>
+
+
+<ul>
+	<li>lat: <span id="show_lat"></span></li>
+	<li>lng: <span id="show_lng"></span></li>
+</ul>
+
 
 </div>
 
