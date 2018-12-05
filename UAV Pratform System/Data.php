@@ -44,23 +44,23 @@ if (isset($_POST["signUp"])) {
         // 入力したユーザIDとパスワードを格納
         //$userid = $_SESSION["id"];
         $renraku = $_POST["renraku"];
-	      $syurui = $_POST["syurui"];
-	      $year = $_POST["year"];
-	      $month = $_POST["month"];
+	$syurui = $_POST["syurui"];
+	$year = $_POST["year"];
+	$month = $_POST["month"];
         $day = $_POST["day"];
         $time = $_POST["time"];
-        $ts = time();
+
 
 
         // 3. エラー処理
-        try {
+       try {
             $dsn = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
             $pdo = new PDO($dsn, $db['user'], $db['pass'], array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
             //$sql = sprintf("SELECT * FROM `user` WHERE `name` LIKE '$UserName'");
             //$res = $pdo->query($sql);
-            $stmt = $pdo->prepare("INSERT INTO sub (userid, renraku, syurui, year, month, day, time, ts) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO sub (userid, renraku, syurui, year, month, day, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-            $stmt->execute(array($UserName, $renraku, $syurui, $year, $month,  $day, $time, $ts));  // パスワードのハッシュ化を行う（今回は文字列のみなのでbindValue(変数の内容が変わらない)を使用せず、直接excuteに渡しても問題ない）
+            $stmt->execute(array($UserName, $renraku, $syurui, $year, $month,  $day, $time));  // パスワードのハッシュ化を行う（今回は文字列のみなのでbindValue(変数の内容が変わらない)を使用せず、直接excuteに渡しても問題ない）
             $id = $pdo->lastinsertid();  // 登録した(DB側でauto_incrementした)IDを$useridに入れる
 
             $signUpMessage = '登録が完了しました。あなたの予約IDは '. $id. ' です。希望日時は '. $year.'年'.$month.'月'.$day.'日'.$time. 'です。';  // ログイン時に使用するIDとパスワード
@@ -126,236 +126,541 @@ if (isset($_POST["signUp"])) {
           window.onload = load;
           </script>
           <script type="text/javascript">
-              var KK,AX,AY,BX,BY,CX,CY,DX,DY,AB_kyori,CD_kyori,kyori_h,hiritsu,ABX_h,ABY_h,CDX_h,CDY_h,AB_k,CD_k;
-              <!--座標を入力（DBから取得できるようにする予定）-->
-              AX = 35.369566;
-              AY = 139.416746;
-              BX = 35.370953;
-              BY = 139.416907;
-              CX = 35.369529;
-              CY = 139.41531;
-              DX = 35.371196;
-              DY = 139.415712;
-              <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
-              KK = 8;
-              //var myRootJ = JSON.stringify(myRoot);
-              //console.log(myRootJ);
-              /*
-              <!--テスト用にいろいろ出力-->
-              console.log(kyori_h);
-              console.log(AB_kyori);
-              console.log(CD_kyori);
-              console.log(hiritsu);
-              console.log(AB_k);
-              console.log(CD_k);
-              console.log(ABX_h);
-              console.log(ABY_h);
-              console.log(CDX_h);
-              console.log(CDY_h);
-              console.log(aryABX);
-              console.log(aryABY);
-              console.log(aryCDX);
-              console.log(aryCDY);
-              console.log(aryAB);
-              console.log(aryCD);
-              */
-              var poly;
-              var map;
-              var cnt=0;
-              var marker;
-              var path;
-              $(function(){
-              	initialize();
-              	$("#run").click(function(){
-              		dist_calc();
-              	});
-              	$("#reset").click(function(){
-              		reset();
-              	});
-              });
-              function initialize() {
-                var shiroi = new google.maps.LatLng(35.3309774, 139.4058813);
-                var myOptions = {
-                  zoom: 15,
-                  center: shiroi,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP,
-                  draggableCursor: "default"
-                };
-                map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-              }
-              function dist_calc(){
-              	//2重で描画されないようにリセットする
-                  if (poly) {
-                    poly.setMap(null);
-                  }
-                  $("#gps").val('');
-                  $('#ruler').text("0");
-                  $('#ruler1').text("0");
-              	KK=document.js.txtb.value;
-              	<!--入力された座標から距離を計算-->
-              AB_kyori = Math.sqrt((BX-AX)*(BX-AX)+(BY-AY)*(BY-AY))*100000;
-              CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
-              <!--ABの距離に対するCDの距離の比率を計算-->
-              hiritsu = CD_kyori / AB_kyori;
-              <!--ABとCDの角度を計算-->
-              AB_k = Math.atan2(BX-AX,BY-AY);
-              CD_k = Math.atan2(DX-CX,DY-CY);
-              <!--10mあたりの座標の変動値を計算-->
-              ABX_h = Math.sin(AB_k)/(100000/KK);
-              ABY_h = Math.cos(AB_k)/(100000/KK);
-              CDX_h = Math.sin(CD_k)/(100000/KK)*hiritsu;
-              CDY_h = Math.cos(CD_k)/(100000/KK)*hiritsu;
-              <!--距離から配列の数を計算-->
-              kyori_h = Math.ceil(AB_kyori / KK);
-              <!--配列を作成-->
-              var aryABX = new Array(kyori_h);
-              var aryABY = new Array(kyori_h);
-              var aryCDX = new Array(kyori_h);
-              var aryCDY = new Array(kyori_h);
-              var aryAB = new Array(kyori_h);
-              var aryCD = new Array(kyori_h);
-              <!--配列の0番目に始点の座標を追加-->
-              var i = 1;　//配列用の変数
-              <!--始点を配列に追加-->
-              aryABX[0] = AX;
-              aryABY[0] = AY;
-              aryCDX[0] = CX;
-              aryCDY[0] = CY;
-              <!--配列に10mごとの座標を追加-->
-              while(i <= kyori_h){
-              	aryABX[i] = aryABX[i-1]+ABX_h; //一つ前の配列の座標に変動値を追加
-              	aryABY[i] = aryABY[i-1]+ABY_h;
-              	aryCDX[i] = aryCDX[i-1]+CDX_h;;
-              	aryCDY[i] = aryCDY[i-1]+CDY_h;;
-              	//alert(i);
-              	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
-              	if(aryABX[i] > BX)aryABX[i] = BX;
-              	if(aryABY[i] > BY)aryABY[i] = BY;
-              	if(aryCDX[i] > DX)aryCDX[i] = DX;
-              	if(aryCDY[i] > DY)aryCDY[i] = DY;
-              	i++;
-              }
-              for (var i = 0; i <= kyori_h; i++) {
-              	eval("var ABX" + i + "=" + aryABX[i] + ";");
-              	eval("var ABY" + i + "=" + aryABY[i] + ";");
-              	eval("var CDX" + i + "=" + aryCDX[i] + ";");
-              	eval("var CDY" + i + "=" + aryCDY[i] + ";");
-              }
-              //xとyを1つの配列に統合する
-              i = 1;
-              for(var i = 0; i <= kyori_h; i++){
-              	aryAB[i] = aryABX[i] + ',' + aryABY[i];
-              	aryCD[i] = aryCDX[i] + ',' + aryCDY[i];
-              }
-              //ABとCDそれぞれの座標を並び替えてルートを1つの配列に作成する
-              var rimit = (kyori_h * 2);
-              console.log(rimit);
-              var x = 1;
-              var abr = 0;
-              var cdr = 1;
-              var myRoot = new Array(rimit);
-              for(var i = 0; i <= rimit; i++){
-              	if(x == 1){
-              		myRoot[i] = aryAB[abr];
-              		abr++;
-              		i++;
-              		if(i > rimit)break;
-              		myRoot[i] = aryAB[abr];
-              		abr++;
-              	}
-              	if(x == -1){
-              		myRoot[i] = aryCD[cdr];
-              		cdr++;
-              		i++;
-              		if(i > rimit)break;
-              		myRoot[i] = aryCD[cdr];
-              		cdr++;
-              	}
-              	x = x * -1
-              }
-                var polyOptions = {
-                  strokeColor: '#FF3333',
-                  strokeOpacity: 0.8,
-                  strokeWeight: 3
-                }
-                poly = new google.maps.Polyline(polyOptions);
-                poly.setMap(map);
-              /*
-                	//配列に入力欄の座標を挿入？
-              	var gpsStr  = $("#gps").val();
-              	console.log(gpsStr);
-              	//改行で分けている？
-              	var gpsArry = gpsStr.split("\n");
-              	console.log(gpsArry);
-              	//flen = gpsArry.length;
-              	flen = aryAB.length;
-              */
-              	//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
-              	var len = 0;
-              	for(var i=0; i < myRoot.length; i++){
-              		if((typeof myRoot[i] === "undefined") || (myRoot[i] === "")){
-              			break;
-              		}else{
-              			len ++;
-              		}
-              	}
-              	path = poly.getPath();
-              	var bounds = new google.maps.LatLngBounds();
-              	var latLngArry = [];
-              	for(var i=0; i < len; i++){
-              		var wLatLng = new google.maps.LatLng(myRoot[i].split(",")[0], myRoot[i].split(",")[1]);
-              		path.push(wLatLng);
-              		bounds.extend(wLatLng);
-              		latLngArry[i] = wLatLng;
-              	}
-              	console.log(bounds);
-              	console.log(wLatLng);
-              	map.fitBounds(bounds);
-              	// Googleの関数を使用した距離計算
-              	//var dist = 0;
-              	/*
-              	for(var i=1; i < len; i++){
-              		dist += google.maps.geometry.spherical.computeDistanceBetween(latLngArry[i - 1], latLngArry[i]);
-              	}
-              	*/
-              	var dist = google.maps.geometry.spherical.computeLength(path);
-              	dist = Math.round(dist)/1000.0
-              	$("#ruler").text(dist);
-              	$("#ruler1").text(KK);
-              }
-                // Clear all overlays, reset the array of points, and hide the chart
-                function reset() {
-                  if (poly) {
-                    poly.setMap(null);
-                  }
-                  $("#gps").val('');
-                  $('#ruler').text("0");
-                  $('#ruler1').text("0");
-                }
-              /*ダウンロード用のコード。有効にしたい場合はファイルの拡張子をPHPにする
-                $(function(){
-                $('.btn').on('click',function(){
-                  // 配列 の用意
-                  var array_data = [['りんご',1,200],['メロン',2,4000],['バナナ',4,500]];
-                  // BOM の用意（文字化け対策）
-                  var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-                  // CSV データの用意!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                  var csv_data = array_data.map(function(l){return l.join(',')}).join('\r\n');
-                  var blob = new Blob([bom, csv_data], { type: 'text/csv' });
-                  var url = (window.URL || window.webkitURL).createObjectURL(blob);
-                  var a = document.getElementById('downloader');
-                  a.download = 'data.csv';
-                  a.href = url;
-                  // ダウンロードリンクをクリックする
-                  $('#downloader')[0].click();
-                });
-              });
-              */
-              //テキストボックスの文字を操作する
-              function clr(){
-                document.js.txtb.value="";
-              }
-              </script>
+
+
+
+var KK,AX,AY,BX,BY,CX,CY,DX,DY,AB_kyori,CD_kyori,kyori_h,
+hiritsu,ABX_h,ABY_h,CDX_h,CDY_h,AB_k,CD_k;
+
+<!--横方向からも座標を取得するための変数-->
+
+var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
+
+
+<!--座標を入力（DBから取得できるようにする予定）-->
+AX = 35.369566;
+AY = 139.416746;
+BX = 35.371199;
+BY = 139.416907;
+CX = 35.369529;
+CY = 139.41531;
+DX = 35.371196;
+DY = 139.415712;
+
+<!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
+
+KK = 8;
+
+
+KKK = 10;
+
+
+var ss = new Array(4);
+var ss_count = 0;
+
+console.log(ss);
+
+
+//var myRootJ = JSON.stringify(myRoot);
+
+//console.log(myRootJ);
+
+/*
+
+<!--テスト用にいろいろ出力-->
+console.log(kyori_h);
+console.log(AB_kyori);
+console.log(CD_kyori);
+console.log(hiritsu);
+console.log(AB_k);
+console.log(CD_k);
+console.log(ABX_h);
+console.log(ABY_h);
+console.log(CDX_h);
+console.log(CDY_h);
+console.log(aryABX);
+console.log(aryABY);
+console.log(aryCDX);
+console.log(aryCDY);
+console.log(aryAB);
+console.log(aryCD);
+
+
+*/
+
+
+
+
+var poly;
+var map;
+var cnt=0;
+var marker;
+var path;
+
+$(function(){
+	initialize();
+	$("#run").click(function(){
+		dist_calc();
+	});
+	$("#reset").click(function(){
+		reset();
+	});
+});
+
+
+function initialize() {
+  var shiroi = new google.maps.LatLng(35.3309774, 139.4058813);
+  var myOptions = {
+    zoom: 15,
+    center: shiroi,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    draggableCursor: "default"
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+      google.maps.event.addListener(map, 'click', mylistener);
+
+}
+
+//クリックした地点の座標を配列へ入れる
+
+    function mylistener(event) {
+
+    	ss[ss_count] = event.latLng.lat() + ',' + event.latLng.lng();
+     	ss_count++;
+
+      	document.getElementById("show_lat").innerHTML = event.latLng.lat();
+     	document.getElementById("show_lng").innerHTML = event.latLng.lng();
+
+     	console.log(ss);
+
+
+var polyOptions = {
+			strokeColor: '#FF3333',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly = new google.maps.Polyline(polyOptions);
+		poly.setMap(map);
+
+
+		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+		var len = 0;
+		for(var i=0; i < ss.length; i++){
+			if((typeof ss[i] === "undefined") || (ss[i] === "")){
+				break;
+			}else{
+				len ++;
+			}
+		}
+
+		path = poly.getPath();
+		var bounds = new google.maps.LatLngBounds();
+		var latLngArry = [];
+		for(var i=0; i < len; i++){
+			var wLatLng = new google.maps.LatLng(ss[i].split(",")[0], ss[i].split(",")[1]);
+			path.push(wLatLng);
+			bounds.extend(wLatLng);
+			latLngArry[i] = wLatLng;
+		}
+		map.fitBounds(bounds);
+
+
+		var dist = google.maps.geometry.spherical.computeLength(path);
+		dist = Math.round(dist)/1000.0
+
+		console.log(dist);
+
+		$("#ruler").text(dist);
+		$("#ruler1").text(KK);
+
+		if (poly) {
+		poly.setMap(null);
+		}
+}
+
+function dist_calc(){
+
+	//2重で描画されないようにリセットする
+    if (poly) {
+      poly.setMap(null);
+    }
+
+    $("#gps").val('');
+    $('#ruler').text("0");
+    $('#ruler1').text("0");
+
+
+    //テキストボックスから飛行間隔を取得
+	KK = document.js.txtb.value;
+	//テキストボックスから飛行距離を取得
+	KKK = document.js.txtc.value;
+
+
+	<!--入力された座標から距離を計算-->
+AB_kyori = Math.sqrt((BX-AX)*(BX-AX)+(BY-AY)*(BY-AY))*100000;
+CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
+
+CA_kyori = Math.sqrt((AX-CX)*(AX-CX)+(AY-CY)*(AY-CY))*100000;
+DB_kyori = Math.sqrt((BX-DX)*(BX-DX)+(BY-DY)*(BY-DY))*100000;
+
+<!--ABの距離に対するCDの距離の比率を計算-->
+hiritsu = CD_kyori / AB_kyori;
+
+hiritsu2 = DB_kyori / CA_kyori;
+
+<!--ABとCDの角度を計算-->
+AB_k = Math.atan2(BX-AX,BY-AY);
+CD_k = Math.atan2(DX-CX,DY-CY);
+
+CA_k = Math.atan2(AX-CX,AY-CY);
+DB_k = Math.atan2(BX-DX,BY-DY);
+
+<!--10mあたりの座標の変動値を計算-->
+ABX_h = Math.sin(AB_k)/(100000/KK);
+ABY_h = Math.cos(AB_k)/(100000/KK);
+CDX_h = Math.sin(CD_k)/(100000/KK)*hiritsu;
+CDY_h = Math.cos(CD_k)/(100000/KK)*hiritsu;
+
+CAX_h = Math.sin(CA_k)/(100000/KK);
+CAY_h = Math.cos(CA_k)/(100000/KK);
+DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
+DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
+
+//console.log(DBY_h);
+
+<!--距離から配列の数を計算-->
+kyori_h = Math.ceil(AB_kyori / KK);
+
+kyori_h2 = Math.ceil(CA_kyori / KK);
+
+<!--配列を作成-->
+var aryABX = new Array(kyori_h);
+var aryABY = new Array(kyori_h);
+var aryCDX = new Array(kyori_h);
+var aryCDY = new Array(kyori_h);
+
+var aryAB = new Array(kyori_h);
+var aryCD = new Array(kyori_h);
+
+var aryDBX = new Array(kyori_h2);
+var aryDBY = new Array(kyori_h2);
+var aryCAX = new Array(kyori_h2);
+var aryCAY = new Array(kyori_h2);
+
+var aryDB = new Array(kyori_h2);
+var aryCA = new Array(kyori_h2);
+<!--配列の0番目に始点の座標を追加-->
+var i = 1;　//配列用の変数
+var i2 = 1;
+
+<!--始点を配列に追加-->
+aryABX[0] = AX;
+aryABY[0] = AY;
+aryCDX[0] = CX;
+aryCDY[0] = CY;
+
+aryDBX[0] = DX;
+aryDBY[0] = DY;
+aryCAX[0] = CX;
+aryCAY[0] = CY;
+
+<!--配列に10mごとの座標を追加-->
+
+while(i <= kyori_h){
+	aryABX[i] = aryABX[i-1]+ABX_h; //一つ前の配列の座標に変動値を追加
+	aryABY[i] = aryABY[i-1]+ABY_h;
+	aryCDX[i] = aryCDX[i-1]+CDX_h;
+	aryCDY[i] = aryCDY[i-1]+CDY_h;
+	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
+	if(aryABX[i] > BX)aryABX[i] = BX;
+	if(aryABY[i] > BY)aryABY[i] = BY;
+	if(aryCDX[i] > DX)aryCDX[i] = DX;
+	if(aryCDY[i] > DY)aryCDY[i] = DY;
+	i++;
+}
+while(i2 <= kyori_h2){
+	aryCAX[i2] = aryCAX[i2-1]+CAX_h;
+	aryCAY[i2] = aryCAY[i2-1]+CAY_h;
+	aryDBX[i2] = aryDBX[i2-1]+DBX_h;
+	aryDBY[i2] = aryDBY[i2-1]+DBY_h;
+
+	if(aryCAX[i2] > AX)aryCAX[i2] = AX;
+	if(aryCAY[i2] > AY)aryCAY[i2] = AY;
+	if(aryDBX[i2] > BX)aryDBX[i2] = BX;
+	if(aryDBY[i2] > BY)aryDBY[i2] = BY;
+
+	//console.log(aryCAX[i2]);
+	i2++;
+}
+/*
+
+console.log(DBX_h);
+console.log(CAX_h);
+
+
+console.log(aryCAX);
+console.log(aryCAY);
+
+console.log(aryDBX);
+console.log(aryDBY);
+
+
+*/
+
+/*謎の式
+
+for(var i = 0; i <= kyori_h; i++) {
+	eval("var ABX" + i + "=" + aryABX[i] + ";");
+	eval("var ABY" + i + "=" + aryABY[i] + ";");
+	eval("var CDX" + i + "=" + aryCDX[i] + ";");
+	eval("var CDY" + i + "=" + aryCDY[i] + ";");
+}
+
+for(var i = 0; i <= kyori_h2; i++){
+	eval("var CAX" + i + "=" + aryCAX[i] + ";");
+	eval("var CAY" + i + "=" + aryCAY[i] + ";");
+	eval("var DBX" + i + "=" + aryDBX[i] + ";");
+	eval("var DBY" + i + "=" + aryDBY[i] + ";");
+}
+
+*/
+
+//xとyを1つの配列に統合する
+
+//i = 1;
+
+for(var i = 0; i <= kyori_h; i++){
+	aryAB[i] = aryABX[i] + ',' + aryABY[i];
+	aryCD[i] = aryCDX[i] + ',' + aryCDY[i];
+}
+for(var i = 0; i <= kyori_h2; i++){
+	aryCA[i] = aryCAX[i] + ',' + aryCAY[i];
+	aryDB[i] = aryDBX[i] + ',' + aryDBY[i];
+}
+//ABとCDそれぞれの座標を並び替えてルートを1つの配列に作成する
+
+var rimit = (kyori_h * 2);
+var rimit2 = (kyori_h2 * 2);
+var x = 1;
+var abr = 0;
+var cdr = 1;
+var x2 = 1;
+var dbr = 1;
+var car = 0;
+var myRoot2 = new Array(rimit2);
+var random_root = new Array(kyori_h + kyori_h2);
+console.log(random_root);
+
+/*
+console.log(myRoot);
+console.log(myRoot2);
+
+console.log(aryDBX);
+console.log(aryDBY);
+console.log(aryCAX);
+console.log(aryCAY);
+
+console.log(aryABX);
+
+console.log(aryDB);
+console.log(aryCA);
+*/
+//ラジオボタンの状態を変数に格納
+check1 = document.form1.Radio1.checked;
+check2 = document.form1.Radio2.checked;
+check3 = document.form1.Radio3.checked;
+
+if (check1 == true) {
+	for(var i = 0; i <= rimit2; i++){
+		if(x2 == 1){
+			myRoot2[i] = aryCA[car];
+			car++;
+			i++;
+			if(i > rimit2)break;
+			myRoot2[i] = aryCA[car];
+			car++;
+		}
+		if(x2 == -1){
+			myRoot2[i] = aryDB[dbr];
+			dbr++;
+			i++;
+			if(i > rimit2)break;
+			myRoot2[i] = aryDB[dbr];
+			dbr++;
+		}
+		x2 = x2 * -1;
+	}
+}
+
+else if (check2 == true) {
+	for(var i = 0; i <= rimit; i++){
+		if(x == 1){
+			myRoot2[i] = aryAB[abr];
+			abr++;
+			i++;
+			if(i > rimit)break;
+			myRoot2[i] = aryAB[abr];
+			abr++;
+		}
+		if(x == -1){
+			myRoot2[i] = aryCD[cdr];
+			cdr++;
+			i++;
+			if(i > rimit)break;
+			myRoot2[i] = aryCD[cdr];
+			cdr++;
+		}
+		x = x * -1;
+	}
+}
+
+else if (check3 == true) {
+	var random_root1 = 0;
+	var random_root2 = 0;
+
+
+	for(var i = 0; i <= kyori_h; i++){
+		random_root[random_root1] = aryAB[i];
+		random_root1++;
+		random_root[random_root1] = aryCD[i];
+		random_root1++;
+	}
+	for(var i = 0; i <= kyori_h2; i++){
+		random_root[random_root1] = aryCA[i];
+		random_root1++;
+		random_root[random_root1] = aryDB[i];
+		random_root1++;
+	}
+
+	while(true){
+
+		if(KKK > 100){
+			alert("飛行距離は100km以下で入力してください。");
+			break;
+		}
+
+		var random = Math.floor( Math.random() * random_root1 );
+
+		myRoot2[random_root2] = random_root[random];
+
+		random_root2++;
+
+		var polyOptions = {
+			strokeColor: '#FF3333',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly = new google.maps.Polyline(polyOptions);
+		poly.setMap(map);
+		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+		var len = 0;
+		for(var i=0; i < myRoot2.length; i++){
+			if((typeof myRoot2[i] === "undefined") || (myRoot2[i] === "")){
+				break;
+			}else{
+				len ++;
+			}
+		}
+		path = poly.getPath();
+		var bounds = new google.maps.LatLngBounds();
+		var latLngArry = [];
+		for(var i=0; i < len; i++){
+			var wLatLng = new google.maps.LatLng(myRoot2[i].split(",")[0], myRoot2[i].split(",")[1]);
+			path.push(wLatLng);
+			bounds.extend(wLatLng);
+			latLngArry[i] = wLatLng;
+		}
+		map.fitBounds(bounds);
+		var dist = google.maps.geometry.spherical.computeLength(path);
+		dist = Math.round(dist)/1000.0
+		console.log(dist);
+		$("#ruler").text(dist);
+		$("#ruler1").text(KK);
+		if (poly) {
+		poly.setMap(null);
+		}
+		if(dist > KKK)break;
+		/*
+		var polyOptions = {
+			strokeColor: '#FF3333',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly = new google.maps.Polyline(polyOptions);
+		poly.setMap(map);
+
+		path = poly.getPath();
+		var bounds = new google.maps.LatLngBounds();
+		var latLngArry = [];
+		for(var i=0; i < len; i++){
+			var wLatLng = new google.maps.LatLng(myRoot2[i].split(",")[0], myRoot2[i].split(",")[1]);
+			path.push(wLatLng);
+			bounds.extend(wLatLng);
+			latLngArry[i] = wLatLng;
+		}
+		var dist = google.maps.geometry.spherical.computeLength(path);
+		dist = Math.round(dist)/1000.0;
+
+
+		console.log(dist);
+		*/
+	}
+	console.log(random_root);
+}
+console.log(myRoot2);
+  var polyOptions = {
+    strokeColor: '#FF3333',
+    strokeOpacity: 0.8,
+    strokeWeight: 3
+  }
+  poly = new google.maps.Polyline(polyOptions);
+  poly.setMap(map);
+
+
+	//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+	var len = 0;
+	for(var i=0; i < myRoot2.length; i++){
+		if((typeof myRoot2[i] === "undefined") || (myRoot2[i] === "")){
+			break;
+		}else{
+			len ++;
+		}
+	}
+	path = poly.getPath();
+	var bounds = new google.maps.LatLngBounds();
+	var latLngArry = [];
+	for(var i=0; i < len; i++){
+		var wLatLng = new google.maps.LatLng(myRoot2[i].split(",")[0], myRoot2[i].split(",")[1]);
+		path.push(wLatLng);
+		bounds.extend(wLatLng);
+		latLngArry[i] = wLatLng;
+	}
+	map.fitBounds(bounds);
+
+
+	var dist = google.maps.geometry.spherical.computeLength(path);
+	dist = Math.round(dist)/1000.0
+
+	console.log(dist);
+
+	$("#ruler").text(dist);
+	$("#ruler1").text(KK);
+}
+  function reset() {
+    if (poly) {
+      poly.setMap(null);
+    }
+    $("#gps").val('');
+    $('#ruler').text("0");
+    $('#ruler1').text("0");
+  }
+//テキストボックスの文字を操作する
+function clr(){
+  document.js.txtb.value="";
+}
+</script>
+
     </head>
     <body id="Setting" onload="initialize()">
         <header>
@@ -396,6 +701,14 @@ if (isset($_POST["signUp"])) {
                 <td><span style="font-size:18px;font-weight:bold;" id="ruler1">0</span>m</td>
             		<!--<td><span style="font-size:20px;font-weight:bold;" id="time">0</span>時間</td>-->
             	</tr>
+              <form name="form1" action="">
+                <input id="Radio1" name="RadioGroup1" type="radio" checked>
+                <label for="Radio1">一定間隔（縦方向）</label><br/>
+                <input id="Radio2" name="RadioGroup1" type="radio">
+                <label for="Radio2">一定間隔（横方向）</label><br />
+              <input id="Radio3" name="RadioGroup1" type="radio">
+              <label for="Radio3">ランダム</label><br />
+            </form>
             </table>
             <br>
             <form name="js">
@@ -404,11 +717,16 @@ if (isset($_POST["signUp"])) {
               <input type="button" id="reset"   value="リセット"/></p>
             <!--<input type="button" value="消去" onclick="clr()"><br>-->
             </form>
-
             </div>
             </div>
             </div>
             <hr>
+
+            <h2 class="icon">人口密集地データ</h2>
+            <div class="form02">
+              <iframe src="https://www.google.com/maps/d/embed?mid=1_iNwo1KNa-CTy_RH8Vzput4aYSgX5Nyn&z=10" width="900" height="450"></iframe>
+            </div>
+            <br>
             <h2 class="icon">予約申請</h2>
             <div class="form03">
               	<form id="loginForm" name="loginForm" action="" method="POST">

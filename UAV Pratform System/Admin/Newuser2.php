@@ -39,7 +39,7 @@ if (isset($_POST["signUp"])) {
             $stmt = $pdo->prepare("INSERT INTO admin (name, password,email, tel, Location) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute(array($username, password_hash($password, PASSWORD_DEFAULT),$email, $tel, $Location));  // パスワードのハッシュ化を行う（今回は文字列のみなのでbindValue(変数の内容が変わらない)を使用せず、直接excuteに渡しても問題ない）
             $userid = $pdo->lastinsertid();  // 登録した(DB側でauto_incrementした)IDを$useridに入れる
-            $signUpMessage = '登録が完了しました。あなたの登録IDは '. $userid. ' です。パスワードは '. $password. ' です。';  // ログイン時に使用するIDとパスワード
+            $signUpMessage = '登録が完了しました。';  // ログイン時に使用するIDとパスワード
         } catch (PDOException $e) {
             $errorMessage = 'データベースエラー';
             // $e->getMessage() でエラー内容を参照可能（デバッグ時のみ表示）

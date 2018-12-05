@@ -3,45 +3,13 @@ require_once("util.php");
 $gobackURL = "Data2.php";
 
 // 文字エンコードの検証
-if (!cken($_POST)){
-  header("Location:{$gobackURL}");
-  exit();
-}
-// 簡単なエラー処理
-$errors = [];
-if (!isset($_POST["name"])||($_POST["name"]==="")){
-  $errors[] = "名前が空です。";
-}
-if (!isset($_POST["email"])||($_POST["email"]==="")){
-  $errors[] = "メールアドレスが空です。";
-}
-if (!isset($_POST["tel"])||(!ctype_digit($_POST["tel"]))){
-  $errors[] = "電話番号には数値を入れてください。";
-}
-if (!isset($_POST["Location"])||($_POST["Location"]==="")){
-  $errors[] = "住所が空です。";
-}
-if (!isset($_POST["password"])||($_POST["password"]==="")){
-  $errors[] = "パスワードが空です。";
-}
 
-//エラーがあったとき
-if (count($errors)>0){
-  echo '<ol class="error">';
-  foreach ($errors as $value) {
-    echo "<li>", $value , "</li>";
-  }
-  echo "</ol>";
-  echo "<hr>";
-  echo "<a href=", $gobackURL, ">戻る</a>";
-  exit();
-}
 // データベースユーザ
 $user = 'root';
-$password = 'toor';
+$password = 'Yukiafronia1102';
 $dbName = 'userData';
-$host　= 'localhost';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$host　= '202.48.48.101';
+$dsn = "mysql:host=202.48.48.101;dbname=userData;charset=utf8";
 ?>
 
 <!DOCTYPE html>
