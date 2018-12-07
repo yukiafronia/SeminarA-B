@@ -5,7 +5,7 @@ if (empty($_POST["memo"])){
   // リダイレクト（メモ入力ページへ戻る）
   $url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
   header("HTTP/1.1 303 See Other");
-  header("Location:" . $url . "Login2.php");
+  header('Location::http://202.48.48.101/Admin/Login2.php');
   exit();
 }
 // ファイルに書き込むストリングを作る

@@ -3,9 +3,9 @@
 //echo ("セッションを開始します");
 session_start();
 
-$db['host'] = "localhost";  // DBサーバのURL
+$db['host'] = "202.48.48.101";  // DBサーバのURL
 $db['user'] = "root";  // ユーザー名
-$db['pass'] = "toor";  // ユーザー名のパスワード
+$db['pass'] = "Yukiafronia1102";  // ユーザー名のパスワード
 $db['dbname'] = "userData";  // データベース名
 $UserName = $_SESSION["NAME"];
 $UserEmail = null; //ユーザーメールアドレス

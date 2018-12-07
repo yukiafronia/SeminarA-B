@@ -4,7 +4,7 @@ $user = 'root';
 $password = 'Yukiafronia1102';
 $dbName = 'userData';
 $host　= '202.48.48.101';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$dsn = "mysql:host=202.48.48.101;dbname=userData;charset=utf8";
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,8 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             <nav>
                 <ul class="global-nav">
                     <li><a href="Login2.php">Data</a></li>
-                    <li><a href="Setting.html">Setting</a></li>
-                    <li><a href="Top.html">Log off</a></li>
+                    <li><a href="form.php">Form</a></li>
+                    <li><a href="logout.php">Log off</a></li>
                 </ul>
             </nav>
         </header>
@@ -41,7 +41,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
                     $pdo = new PDO($dsn,$user,$password);
                     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
                     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                    echo "データベース{$dbName}に接続しました。";
+
                       $sql = "SELECT * FROM user";
                       $stm = $pdo->prepare($sql);
                       // SQL文を実行する
@@ -82,38 +82,39 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
                 <h2 class="icon">ユーザの追加</h2>
                 <div class="form02">
                   <form method="POST" action="insert_member.php">
-                    <ul>
-                      <li>
+                    <dl>
+                      <dt>
                         <label>名前：
                         <input type="text" name="name" placeholder="名前">
                         </label>
-                      </li>
-                      <li>
+                      </dt>
+                      <dt>
                         <label>メールアドレス：
                         <input type="text" name="email" placeholder="メールアドレス">
                         </label>
-                      </li>
-                      <li>
+                      </dt>
+                      <dt>
                         <label>電話番号：
                         <input type="number" name="tel" placeholder="半角数字">
                         </label>
-                      </li>
-                      <li>
+                      </dt>
+                      <dt>
                         <label>住所：
                         <input type="text" name="Location" placeholder="住所">
                         </label>
-                      </li>
-                      <li>
+                      </dt>
+                      <dt>
                         <label>パスワード：
                         <input type="text" name="password" placeholder="パスワード">
                         </label>
-                      </li>
-                      <li><input type="submit" value="追加する"></li>
-                    </ul>
+                      </dt>
+                      <input type="submit" value="追加する">
+                    </dl>
                   </form>
                 </div>
-                </div>
+
               </section>
+              </div>
               </div>
           </div>
         </div>

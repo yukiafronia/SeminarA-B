@@ -17,8 +17,8 @@ require_once("util.php");
             <nav>
                 <ul class="global-nav">
                     <li><a href="Data2.php">Data</a></li>
-                    <li><a href="Setting.html">Setting</a></li>
-                    <li><a href="Top.html">Log off</a></li>
+                    <li><a href="form.php">Form</a></li>
+                    <li><a href="logout.php">Log off</a></li>
                 </ul>
             </nav>
         </header>
@@ -70,55 +70,15 @@ require_once("util.php");
                     }
                     ?>
                 </div>
+                </div>
                 <br>
+                <h2 class="icon">人口密集地データ</h2>
+                <div class="form02">
+                  <iframe src="https://www.google.com/maps/d/embed?mid=1_iNwo1KNa-CTy_RH8Vzput4aYSgX5Nyn&z=10" width="900" height="450"></iframe>
                 </div>
-                </div>
-              <h2 class="icon">履歴</h2>
-              <div class="form01">
-              <form>
-              <div style="overflow: scroll; height: 20em;">
-              <table class="table01">
-                  <tr>
-                    <th class="day2">日付</th>
-                    <th class="place">場所</th>
-                    <th class="crops">作物名</th>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/01</td>
-                    <td class="place">埼玉のどこか</td>
-                    <td class="crops">ホウレン草</td>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/02</td>
-                    <td class="place">茅ヶ崎のどこか</td>
-                    <td class="crops">小松菜</td>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/03</td>
-                    <td class="place">湘南大のどこか</td>
-                    <td class="crops">ブロッコリー</td>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/04</td>
-                    <td class="place">鎌倉のどこか</td>
-                    <td class="crops">米</td>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/05</td>
-                    <td class="place">川崎のどこか</td>
-                    <td class="crops">麦</td>
-                  </tr>
-                  <tr>
-                    <td class="day2">2018/09/06</td>
-                    <td class="place">文教大学</td>
-                    <td class="crops">トマト</td>
-                  </tr>
-               </table>
-              </div>
-              </form>
-              <br>
-              </div>
+                <br>
 
+                </div>
               </section>
 
               </div>

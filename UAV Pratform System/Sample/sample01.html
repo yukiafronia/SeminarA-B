@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GPSテスト</title>
+<script type="text/javascript">
+
+function startFunc(){
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
+} else {
+document.getElementById("geo").innerHTML = "Geolocationが利用できません";
+}
+}
+
+function successCallback(position) {
+//成功したときの処理
+result = '緯度:' + position.coords.latitude + '<br />';
+result += '経度:' + position.coords.longitude + '<br />';
+document.getElementById("geo").innerHTML = result;
+}
+function errorCallback(error) {
+//失敗のときの処理
+document.getElementById("geo").innerHTML = 'Geolocationが利用できません';
+}
+</script>
+</head>
+<body onload="startFunc()">
+<h1>Geolocationで位置情報を取得する</h1>
+<div id="geo"></div>
+</body>
+</html>
