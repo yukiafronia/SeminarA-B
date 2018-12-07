@@ -86,11 +86,23 @@ var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
 AX = 35.369566;
 AY = 139.416746;
 BX = 35.371199;
+BY = 139.416907;
+CX = 35.369529;
+CY = 139.41531;
+DX = 35.371196;
+DY = 139.415712;
+
+/*
+AX = 35.369566;
+AY = 139.416746;
+BX = 35.371199;
 BY = 139.414907;
 CX = 35.369529;
 CY = 139.41531;
 DX = 35.371196;
 DY = 139.415712;
+
+*/
 
 <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
 
@@ -178,6 +190,10 @@ function initialize() {
 
     function mylistener(event) {
 
+    	if(poly1){
+    		poly1.setMap(null);
+    	}
+
     	if(ss_count >= 4){
     		ss = [5];
     		ss_count = 0;
@@ -234,8 +250,8 @@ function initialize() {
 
 		console.log(dist1);
 
-		$("#ruler").text(dist1);
-		$("#ruler1").text(KK);
+		//$("#ruler").text(dist1);
+		//$("#ruler1").text(KK);
 
 
 
