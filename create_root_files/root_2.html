@@ -83,6 +83,21 @@ var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
 
 
 <!--座標を入力（DBから取得できるようにする予定）-->
+
+
+
+AX = 35.369566;
+AY = 139.416746;
+BX = 35.371196;
+BY = 139.416907;
+CX = 35.369529;
+CY = 139.41531;
+DX = 35.371196;
+DY = 139.415712;
+
+
+
+/*
 AX = 35.369566;
 AY = 139.416746;
 BX = 35.371199;
@@ -92,17 +107,9 @@ CY = 139.41531;
 DX = 35.371196;
 DY = 139.415712;
 
-/*
-AX = 35.369566;
-AY = 139.416746;
-BX = 35.371199;
-BY = 139.414907;
-CX = 35.369529;
-CY = 139.41531;
-DX = 35.371196;
-DY = 139.415712;
-
 */
+
+
 
 <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
 
@@ -286,10 +293,19 @@ CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
 CA_kyori = Math.sqrt((AX-CX)*(AX-CX)+(AY-CY)*(AY-CY))*100000;
 DB_kyori = Math.sqrt((BX-DX)*(BX-DX)+(BY-DY)*(BY-DY))*100000;
 
+console.log(CA_kyori);
+console.log(DB_kyori);
+
+
+console.log(CA_kyori);
+console.log(DB_kyori);
+
 <!--ABの距離に対するCDの距離の比率を計算-->
 hiritsu = CD_kyori / AB_kyori;
 
 hiritsu2 = DB_kyori / CA_kyori;
+
+console.log(hiritsu2);
 
 <!--ABとCDの角度を計算-->
 AB_k = Math.atan2(BX-AX,BY-AY);
@@ -309,7 +325,12 @@ CAY_h = Math.cos(CA_k)/(100000/KK);
 DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
 DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
 
-//console.log(DBY_h);
+//DBY_h = DBY_h * -1;
+
+
+console.log(DBX_h);
+console.log(DBY_h);
+
 
 <!--距離から配列の数を計算-->
 kyori_h = Math.ceil(AB_kyori / KK);
@@ -384,6 +405,8 @@ while(i2 <= kyori_h2){
 	i2++;
 
 }
+
+console.log(aryDBY);
 
 /*
 
