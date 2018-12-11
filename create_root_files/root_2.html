@@ -81,6 +81,12 @@ hiritsu,ABX_h,ABY_h,CDX_h,CDY_h,AB_k,CD_k;
 
 var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
 
+//集中飛行エリア内のルート作成用
+var SAX,SAY,SBX,SBY,SCX,SCY,SDX,SDY,SAB_kyori,SCD_kyori,Skyori_h,
+Shiritsu,SABX_h,SABY_h,SCDX_h,SCDY_h,SAB_k,SCD_k;
+
+var SSX,SSY;
+
 
 <!--座標を入力（DBから取得できるようにする予定）-->
 
@@ -207,7 +213,26 @@ function initialize() {
     	}
 
     	ss[ss_count] = event.latLng.lat() + ',' + event.latLng.lng();
+
+    	if(ss_count == 0){
+    		SAX = event.latLng.lat();
+    		SAY = event.latLng.lng();
+    	}
+    	else if(ss_count == 1){
+    		SBX = event.latLng.lat();
+    		SBY = event.latLng.lng();
+    	}
+    	else if(ss_count == 2){
+    		SCX = event.latLng.lat();
+    		SCY = event.latLng.lng();
+    	}
+    	else if(ss_count == 3){
+    		SDX = event.latLng.lat();
+    		SDY = event.latLng.lng();
+    	}
+
      	ss_count++;
+
 
       	document.getElementById("show_lat").innerHTML = event.latLng.lat();
      	document.getElementById("show_lng").innerHTML = event.latLng.lng();
@@ -215,6 +240,35 @@ function initialize() {
      	if(ss_count == 4){
      		ss[ss_count] = ss[0];
      		poly1.setMap(null);
+
+     		if(SAX >SBX){
+     			SSX = SAX;
+     			SSY = SAY;
+     			SAX = SBX;
+     			SAY = SBY;
+     			SBX = SSX;
+     			SBY = SSY;
+     		}
+     		else if(SAX > SCX){
+     			SSX = SAX;
+     			SSY = SAY;
+     			SAX = SCX;
+     			SAY = SCY;
+     			SCX = SSX;
+     			SCY = SSY;
+     		}
+     		else if(SAX > SDX){
+     			SSX = SAX;
+     			SSY = SAY;
+     			SAX = SDX;
+     			SAY = SDY;
+     			SDX = SSX;
+     			SDY = SSY;
+     		}
+
+     		if()
+
+
      	}
 
      	console.log(ss_count);
@@ -286,6 +340,11 @@ function dist_calc(){
 	KKK = document.js.txtc.value; 
 
 
+
+
+
+
+
 	<!--入力された座標から距離を計算-->
 AB_kyori = Math.sqrt((BX-AX)*(BX-AX)+(BY-AY)*(BY-AY))*100000;
 CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
@@ -293,19 +352,17 @@ CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
 CA_kyori = Math.sqrt((AX-CX)*(AX-CX)+(AY-CY)*(AY-CY))*100000;
 DB_kyori = Math.sqrt((BX-DX)*(BX-DX)+(BY-DY)*(BY-DY))*100000;
 
-console.log(CA_kyori);
-console.log(DB_kyori);
+SAB_kyori = Math.sqrt((SBX-SAX)*(SBX-SAX)+(SBY-SAY)*(SBY-SAY))*100000;
+SCD_kyori = Math.sqrt((SDX-SCX)*(SDX-SCX)+(SDY-SCY)*(SDY-SCY))*100000;
 
 
-console.log(CA_kyori);
-console.log(DB_kyori);
 
 <!--ABの距離に対するCDの距離の比率を計算-->
 hiritsu = CD_kyori / AB_kyori;
 
 hiritsu2 = DB_kyori / CA_kyori;
 
-console.log(hiritsu2);
+Shiritsu = SCD_kyori / SAB_kyori;
 
 <!--ABとCDの角度を計算-->
 AB_k = Math.atan2(BX-AX,BY-AY);
@@ -313,6 +370,9 @@ CD_k = Math.atan2(DX-CX,DY-CY);
 
 CA_k = Math.atan2(AX-CX,AY-CY);
 DB_k = Math.atan2(BX-DX,BY-DY);
+
+SAB_k = Math.atan2(SBX-SAX,SBY-SAY);
+SCD_k = Math.atan2(SDX-SCX,SDY-SCY);
 
 <!--10mあたりの座標の変動値を計算-->
 ABX_h = Math.sin(AB_k)/(100000/KK);
@@ -325,17 +385,18 @@ CAY_h = Math.cos(CA_k)/(100000/KK);
 DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
 DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
 
-//DBY_h = DBY_h * -1;
-
-
-console.log(DBX_h);
-console.log(DBY_h);
+SABX_h = Math.sin(SAB_k)/(100000/KK);
+SABY_h = Math.cos(SAB_k)/(100000/KK);
+SCDX_h = Math.sin(SCD_k)/(100000/KK)*Shiritsu;
+SCDY_h = Math.cos(SCD_k)/(100000/KK)*Shiritsu;
 
 
 <!--距離から配列の数を計算-->
 kyori_h = Math.ceil(AB_kyori / KK);
 
 kyori_h2 = Math.ceil(CA_kyori / KK);
+
+Skyori_h = Math.ceil(SAB_kyori / KK);
 
 <!--配列を作成-->
 var aryABX = new Array(kyori_h);
@@ -354,10 +415,20 @@ var aryCAY = new Array(kyori_h2);
 var aryDB = new Array(kyori_h2);
 var aryCA = new Array(kyori_h2);
 
+var arySABX = new Array(Skyori_h);
+var arySABY = new Array(Skyori_h);
+var arySCDX = new Array(Skyori_h);
+var arySCDY = new Array(Skyori_h);
+
+var arySAB = new Array(Skyori_h);
+var arySCD = new Array(Skyori_h);
+
+
 
 <!--配列の0番目に始点の座標を追加-->
 var i = 1;　//配列用の変数
 var i2 = 1;
+var i3 = 1;
 
 <!--始点を配列に追加-->
 aryABX[0] = AX;
@@ -369,6 +440,11 @@ aryDBX[0] = DX;
 aryDBY[0] = DY;
 aryCAX[0] = CX;
 aryCAY[0] = CY;
+
+arySABX[0] = SAX;
+arySABY[0] = SAY;
+arySCDX[0] = SCX;
+arySCDY[0] = SCY;
 
 <!--配列に10mごとの座標を追加-->
 
@@ -406,7 +482,22 @@ while(i2 <= kyori_h2){
 
 }
 
-console.log(aryDBY);
+while(i3 <= Skyori_h){
+	arySABX[i3] = arySABX[i3-1]+SABX_h; //一つ前の配列の座標に変動値を追加
+	arySABY[i3] = arySABY[i3-1]+SABY_h;
+	arySCDX[i3] = arySCDX[i3-1]+SCDX_h;
+	arySCDY[i3] = arySCDY[i3-1]+SCDY_h;
+
+
+	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
+	if(arySABX[i3] > SBX)arySABX[i3] = SBX;
+	if(arySABY[i3] > SBY)arySABY[i3] = SBY;
+	if(arySCDX[i3] > SDX)arySCDX[i3] = SDX;
+	if(arySCDY[i3] > SDY)arySCDY[i3] = SDY;
+
+
+	i3++;
+}
 
 /*
 
@@ -455,6 +546,10 @@ for(var i = 0; i <= kyori_h2; i++){
 	aryDB[i] = aryDBX[i] + ',' + aryDBY[i];
 }
 
+for(var i = 0; i <= Skyori_h; i++){
+	arySAB[i] = arySABX[i] + ',' + arySABY[i];
+	arySCD[i] = arySCDX[i] + ',' + arySCDY[i];
+}
 
 //ABとCDそれぞれの座標を並び替えてルートを1つの配列に作成する
 
@@ -462,6 +557,7 @@ var rimit = (kyori_h * 2);
 
 var rimit2 = (kyori_h2 * 2);
 
+var Srimit = (Skyori_h * 2);
 
 var x = 1;
 var abr = 0;
@@ -471,13 +567,15 @@ var x2 = 1;
 var dbr = 1;
 var car = 0;
 
+var Sx = 1;
+var Sabr = 0;
+var Scdr = 1;
 
 
 var myRoot2 = new Array(rimit2);
 
 var random_root = new Array(kyori_h + kyori_h2);
 
-console.log(random_root);
 
 
 /*
@@ -657,49 +755,29 @@ else if (check3 == true) {
 		*/
 
 	}
-	console.log(random_root);
-
 }
 
+
 else if(check4 == true){
-	var polyOptions = {
-			strokeColor: '#FF3333',
-			strokeOpacity: 0.8,
-			strokeWeight: 3
+	for(var i = 0; i <= Srimit; i++){
+		if(Sx == 1){
+			myRoot2[i] = arySAB[Sabr];
+			Sabr++;
+			i++;
+			if(i > Srimit)break;
+			myRoot2[i] = arySAB[Sabr];
+			Sabr++;
 		}
-		poly = new google.maps.Polyline(polyOptions);
-		poly.setMap(map);
-
-
-		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
-		var len = 0;
-		for(var i=0; i < ss.length; i++){
-			if((typeof ss[i] === "undefined") || (ss[i] === "")){
-				break;
-			}else{
-				len ++;
-			}
+		if(Sx == -1){
+			myRoot2[i] = arySCD[Scdr];
+			Scdr++;
+			i++;
+			if(i > Srimit)break;
+			myRoot2[i] = arySCD[Scdr];
+			Scdr++;
 		}
-
-		path = poly.getPath();
-		var bounds = new google.maps.LatLngBounds();
-		var latLngArry = [];
-		for(var i=0; i < len; i++){
-			var wLatLng = new google.maps.LatLng(ss[i].split(",")[0], ss[i].split(",")[1]);
-			path.push(wLatLng);
-			bounds.extend(wLatLng);
-			latLngArry[i] = wLatLng;
-		}
-		map.fitBounds(bounds);
-
-
-		var dist = google.maps.geometry.spherical.computeLength(path);
-		dist = Math.round(dist)/1000.0
-
-		console.log(dist);
-
-		$("#ruler").text(dist);
-		$("#ruler1").text(KK);
+		Sx = Sx * -1;
+	}
 }
 
 
