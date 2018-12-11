@@ -115,20 +115,28 @@ DY = 139.415712;
 
 */
 
+SAX = 0;
+SAY = 0;
+SBX = 0;
+SBY = 0;
+SCX = 0;
+SCY = 0;
+SDX = 0;
+SDY = 0;
+
 
 
 <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
 
 KK = 8;
 
-
 KKK = 10;
+
+SK = 3;
 
 //集中飛行するエリアの座標を格納する変数
 var ss = new Array(5);
 var ss_count = 0;
-
-console.log(ss);
 
 
 //var myRootJ = JSON.stringify(myRoot);
@@ -384,10 +392,10 @@ CAY_h = Math.cos(CA_k)/(100000/KK);
 DBX_h = Math.sin(DB_k)/(100000/KK)*hiritsu2;
 DBY_h = Math.cos(DB_k)/(100000/KK)*hiritsu2;
 
-SABX_h = Math.sin(SAB_k)/(100000/KK);
-SABY_h = Math.cos(SAB_k)/(100000/KK);
-SCDX_h = Math.sin(SCD_k)/(100000/KK)*Shiritsu;
-SCDY_h = Math.cos(SCD_k)/(100000/KK)*Shiritsu;
+SABX_h = Math.sin(SAB_k)/(100000/SK);
+SABY_h = Math.cos(SAB_k)/(100000/SK);
+SCDX_h = Math.sin(SCD_k)/(100000/SK)*Shiritsu;
+SCDY_h = Math.cos(SCD_k)/(100000/SK)*Shiritsu;
 
 
 <!--距離から配列の数を計算-->
@@ -395,7 +403,7 @@ kyori_h = Math.ceil(AB_kyori / KK);
 
 kyori_h2 = Math.ceil(CA_kyori / KK);
 
-Skyori_h = Math.ceil(SAB_kyori / KK);
+Skyori_h = Math.ceil(SAB_kyori / SK);
 
 <!--配列を作成-->
 var aryABX = new Array(kyori_h);
@@ -758,24 +766,60 @@ else if (check3 == true) {
 
 
 else if(check4 == true){
+
+	var Si = 0;
+
+	for(var i = 0; i <= rimit; i++){
+		if(x == 1){
+			myRoot2[Si] = aryAB[abr];
+			abr++;
+			i++;
+			Si++;
+			if(i > rimit)break;
+			myRoot2[Si] = aryAB[abr];
+			abr++;
+		}
+		if(x == -1){
+			myRoot2[Si] = aryCD[cdr];
+			cdr++;
+			i++;
+			Si++;
+			if(i > rimit)break;
+			myRoot2[Si] = aryCD[cdr];
+			cdr++;
+		}
+		x = x * -1;
+		Si++;
+	}
+
+
 	for(var i = 0; i <= Srimit; i++){
+
+		if(SDY == 0){
+			alert("地図をクリックして集中飛行する範囲を選択してください。");
+			break;
+		}
+
 		if(Sx == 1){
-			myRoot2[i] = arySAB[Sabr];
+			myRoot2[Si] = arySAB[Sabr];
 			Sabr++;
 			i++;
+			Si++;
 			if(i > Srimit)break;
-			myRoot2[i] = arySAB[Sabr];
+			myRoot2[Si] = arySAB[Sabr];
 			Sabr++;
 		}
 		if(Sx == -1){
-			myRoot2[i] = arySCD[Scdr];
+			myRoot2[Si] = arySCD[Scdr];
 			Scdr++;
 			i++;
+			Si++;
 			if(i > Srimit)break;
-			myRoot2[i] = arySCD[Scdr];
+			myRoot2[Si] = arySCD[Scdr];
 			Scdr++;
 		}
 		Sx = Sx * -1;
+		Si++;
 	}
 }
 
