@@ -85,6 +85,9 @@ var CA_kyori,DB_kyori,kyori_h2,hiritsu2,CAX_h,CAY_h,DBX_h,DBY_h,CA_k,CA_k;
 var SAX,SAY,SBX,SBY,SCX,SCY,SDX,SDY,SAB_kyori,SCD_kyori,Skyori_h,
 Shiritsu,SABX_h,SABY_h,SCDX_h,SCDY_h,SAB_k,SCD_k;
 
+//座標入れ替え用の変数
+var SA,SB,SC,SD;
+
 var SSX,SSY;
 
 
@@ -136,6 +139,9 @@ SK = 3;
 
 //集中飛行するエリアの座標を格納する変数
 var ss = new Array(5);
+
+var sss = new Array(4);
+
 var ss_count = 0;
 
 
@@ -246,71 +252,81 @@ function initialize() {
      	document.getElementById("show_lng").innerHTML = event.latLng.lng();
 
      	if(ss_count == 4){
+
+	     	//ssをソートし順番を合わせる
+	     	ss.sort(function(a,b){
+		        if( a < b ) return -1;
+		        if( a > b ) return 1;
+		        return 0;
+			});
+
+	     	var sp = 0;
+
+	     	//xの座標の小さいものをAとCへ入れる
+	     	for(var i = 0; i < 4; i++){
+	     		alert(sp);
+				sss[sp] = ss[i].split(",")[0];
+				if(sp == 0){
+					SAX = sss[sp];
+				}
+				else if(sp == 2){
+					SCX = sss[sp];
+				}
+				else if(sp == 4){
+					SBX = sss[sp];
+				}
+				else if(sp == 6){
+					SDX = sss[sp];
+				}
+				sp++;
+
+				sss[sp] = ss[i].split(",")[1];
+				if(sp == 1){
+					SAY = sss[sp];
+				}
+				else if(sp == 3){
+					SCY = sss[sp];
+				}
+				else if(sp == 5){
+					SBY = sss[sp];
+				}
+				else if(sp == 7){
+					SDY = sss[sp];
+				}
+				sp++;
+	     	}
+
+	     	for(var i = 0; i < 4; i++){
+	     		 
+	     	}
+
+	     	console.log(SAX);
+			console.log(SAY);
+	     	console.log(SBX);
+	     	console.log(SBY);
+	     	console.log(SCX);
+	     	console.log(SCY);
+	     	console.log(SDX);
+	     	console.log(SDY);
+
+     		console.log(sss);
+
+
+
+
      		ss[ss_count] = ss[0];
      		poly1.setMap(null);
 
-/*
-     		if(SAX >SBX){
-     			SSX = SAX;
-     			SSY = SAY;
-     			SAX = SBX;
-     			SAY = SBY;
-     			SBX = SSX;
-     			SBY = SSY;
-     		}
-     		else if(SAX > SCX){
-     			SSX = SAX;
-     			SSY = SAY;
-     			SAX = SCX;
-     			SAY = SCY;
-     			SCX = SSX;
-     			SCY = SSY;
-     		}
-     		else if(SAX > SDX){
-     			SSX = SAX;
-     			SSY = SAY;
-     			SAX = SDX;
-     			SAY = SDY;
-     			SDX = SSX;
-     			SDY = SSY;
-     		}
-
-     		if(SCX > SAX){
-     			SSX = SCX;
-     			SSY = SCY;
-     			SCX = SAX;
-     			SCY = SAY;
-     			SAX = SSX;
-     			SAY = SSY;
-     		}
-     		else if(SCX > SBX){
-     			SSX = SCX;
-     			SSY = SCY;
-     			SCX = SBX;
-     			SCY = SBY;
-     			SBX = SSX;
-     			SBY = SSY;
-     		}
-     		else if(SCX > SDX){
-     			SSX = SCX;
-     			SSY = SCY;
-     			SCX = SDX;
-     			SCY = SDY;
-     			SDX = SSX;
-     			SDY = SSY;
-     		}
-
-     		*/
 
 
 
-     	}
+	     }
 
      	console.log(ss_count);
 
      	console.log(ss);
 
-	var polyOptions1 = {
+		var polyOptions1 = {
 			strokeColor: '#3333FF',
 			strokeOpacity: 0.8,
 			strokeWeight: 3
