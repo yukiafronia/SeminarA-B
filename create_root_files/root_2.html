@@ -88,6 +88,8 @@ Shiritsu,SABX_h,SABY_h,SCDX_h,SCDY_h,SAB_k,SCD_k;
 //座標入れ替え用の変数
 var SA,SB,SC,SD;
 
+var SSAX,SSAY,SSBX,SSBY,SSCX,SSCY,SSDX,SSDY;
+
 var SSX,SSY;
 
 
@@ -118,14 +120,14 @@ DY = 139.415712;
 
 */
 
-SAX = 0;
-SAY = 0;
-SBX = 0;
-SBY = 0;
-SCX = 0;
-SCY = 0;
-SDX = 0;
-SDY = 0;
+SAX = 1;
+SAY = 1;
+SBX = 1;
+SBY = 1;
+SCX = 1;
+SCY = 1;
+SDX = 1;
+SDY = 1;
 
 
 
@@ -135,7 +137,7 @@ KK = 8;
 
 KKK = 10;
 
-SK = 3;
+SK = 1;
 
 //集中飛行するエリアの座標を格納する変数
 var ss = new Array(5);
@@ -340,6 +342,27 @@ function initialize() {
 	     	console.log(SDX);
 	     	console.log(SDY);
 
+	     	console.log(typeof SAX);
+			console.log(typeof SAY);
+	     	console.log(typeof SBX);
+	     	console.log(typeof SBY);
+	     	console.log(typeof SCX);
+	     	console.log(typeof SCY);
+	     	console.log(typeof SDX);
+	     	console.log(typeof SDY);
+
+	     	SSAX = Number(SAX);
+	     	SSAY = Number(SAY);
+	     	SSBX = Number(SBX);
+	     	SSBY = Number(SBY);
+	     	SSCX = Number(SCX);
+	     	SSCY = Number(SCY);
+	     	SSDX = Number(SDX);
+	     	SSDY = Number(SDY);
+
+	     	console.log(SSAX);
+	     	console.log(typeof SSAX);
+
      		console.log(sss);
 			
 
@@ -422,6 +445,37 @@ function dist_calc(){
 
 
 
+var add1 = document.form2.add1;
+
+var num = add1.selectedIndex;
+
+var str = add1.options[num].value;
+
+console.log(str);
+
+if(str == 1){
+	AX = 35.369566;
+	AY = 139.416746;
+	BX = 35.371196;
+	BY = 139.416907;
+	CX = 35.369529;
+	CY = 139.41531;
+	DX = 35.371196;
+	DY = 139.415712;
+}
+
+else if(str == 2){
+	AX = 35.469566;
+	AY = 139.516746;
+	BX = 35.471196;
+	BY = 139.516907;
+	CX = 35.469529;
+	CY = 139.51531;
+	DX = 35.471196;
+	DY = 139.515712;
+}
+
+
 
 
 
@@ -433,8 +487,8 @@ CD_kyori = Math.sqrt((DX-CX)*(DX-CX)+(DY-CY)*(DY-CY))*100000;
 CA_kyori = Math.sqrt((AX-CX)*(AX-CX)+(AY-CY)*(AY-CY))*100000;
 DB_kyori = Math.sqrt((BX-DX)*(BX-DX)+(BY-DY)*(BY-DY))*100000;
 
-SAB_kyori = Math.sqrt((SBX-SAX)*(SBX-SAX)+(SBY-SAY)*(SBY-SAY))*100000;
-SCD_kyori = Math.sqrt((SDX-SCX)*(SDX-SCX)+(SDY-SCY)*(SDY-SCY))*100000;
+SAB_kyori = Math.sqrt((SSBX-SSAX)*(SSBX-SSAX)+(SSBY-SSAY)*(SSBY-SSAY))*100000;
+SCD_kyori = Math.sqrt((SSDX-SSCX)*(SSDX-SSCX)+(SSDY-SSCY)*(SSDY-SSCY))*100000;
 
 
 
@@ -452,8 +506,8 @@ CD_k = Math.atan2(DX-CX,DY-CY);
 CA_k = Math.atan2(AX-CX,AY-CY);
 DB_k = Math.atan2(BX-DX,BY-DY);
 
-SAB_k = Math.atan2(SBX-SAX,SBY-SAY);
-SCD_k = Math.atan2(SDX-SCX,SDY-SCY);
+SAB_k = Math.atan2(SSBX-SSAX,SSBY-SSAY);
+SCD_k = Math.atan2(SSDX-SSCX,SSDY-SSCY);
 
 <!--10mあたりの座標の変動値を計算-->
 ABX_h = Math.sin(AB_k)/(100000/KK);
@@ -522,10 +576,10 @@ aryDBY[0] = DY;
 aryCAX[0] = CX;
 aryCAY[0] = CY;
 
-arySABX[0] = SAX;
-arySABY[0] = SAY;
-arySCDX[0] = SCX;
-arySCDY[0] = SCY;
+arySABX[0] = SSAX;
+arySABY[0] = SSAY;
+arySCDX[0] = SSCX;
+arySCDY[0] = SSCY;
 
 <!--配列に10mごとの座標を追加-->
 
@@ -571,14 +625,16 @@ while(i3 <= Skyori_h){
 
 
 	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
-	if(arySABX[i3] > SBX)arySABX[i3] = SBX;
-	if(arySABY[i3] > SBY)arySABY[i3] = SBY;
-	if(arySCDX[i3] > SDX)arySCDX[i3] = SDX;
-	if(arySCDY[i3] > SDY)arySCDY[i3] = SDY;
+	if(arySABX[i3] > SBX)arySABX[i3] = SSBX;
+	if(arySABY[i3] > SBY)arySABY[i3] = SSBY;
+	if(arySCDX[i3] > SDX)arySCDX[i3] = SSDX;
+	if(arySCDY[i3] > SDY)arySCDY[i3] = SSDY;
 
 
 	i3++;
 }
+
+
 
 /*
 
@@ -869,7 +925,7 @@ else if(check4 == true){
 
 	for(var i = 0; i <= Srimit; i++){
 
-		if(SDY == 0){
+		if(SDY == 1){
 			alert("地図をクリックして集中飛行する範囲を選択してください。");
 			break;
 		}
@@ -1029,7 +1085,17 @@ function clr(){
       <label for="Radio3">ランダム</label><br />
     <input id="Radio4" name="RadioGroup1" type="radio">
       <label for="Radio4">集中飛行</label><br />
-  </form>
+</form>
+
+<form name="form2">
+	<select id="add1">
+		<option value="1">住所1</option>
+		<option value="2">住所2</option>
+		<option value="3">住所3</option>
+	</select>
+</form>
+
+
 
 
 <p><input type="button" id="run"   value="描画"/>
