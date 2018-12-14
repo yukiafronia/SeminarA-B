@@ -228,6 +228,8 @@ function initialize() {
 
     	ss[ss_count] = event.latLng.lat() + ',' + event.latLng.lng();
 
+
+
     	if(ss_count == 0){
     		SAX = event.latLng.lat();
     		SAY = event.latLng.lng();
@@ -253,18 +255,18 @@ function initialize() {
 
      	if(ss_count == 4){
 
+
+     		
 	     	//ssをソートし順番を合わせる
 	     	ss.sort(function(a,b){
 		        if( a < b ) return -1;
 		        if( a > b ) return 1;
 		        return 0;
 			});
-
 	     	var sp = 0;
 
 	     	//xの座標の小さいものをAとCへ入れる
 	     	for(var i = 0; i < 4; i++){
-	     		alert(sp);
 				sss[sp] = ss[i].split(",")[0];
 				if(sp == 0){
 					SAX = sss[sp];
@@ -296,9 +298,38 @@ function initialize() {
 				sp++;
 	     	}
 
-	     	for(var i = 0; i < 4; i++){
-	     		 
-	     	}
+
+     		if(SAY > SCY){
+     			SSX = SAX;
+     			SSY = SAY;
+     			SAX = SCX;
+     			SAY = SCY;
+     			SCX = SSX;
+     			SCY = SSY;
+     		}
+     		if(SBY > SDY){
+     			SSX = SBX;
+     			SSY = SBY;
+     			SBX = SDX;
+     			SBY = SDY;
+     			SDX = SSX;
+     			SDY = SSY;
+     		}
+
+     		for(var i = 0; i < 4; i++){
+     			if(i == 0){
+    				ss[i] = SAX + ',' + SAY;
+     			}
+     			else if(i == 1){
+    				ss[i] = SBX + ',' + SBY;
+     			}
+     			else if(i == 2){
+    				ss[i] = SDX + ',' + SDY;
+     			}
+     			else if(i == 3){
+    				ss[i] = SCX + ',' + SCY;
+     			}
+     		}
 
 	     	console.log(SAX);
 			console.log(SAY);
@@ -310,8 +341,7 @@ function initialize() {
 	     	console.log(SDY);
 
      		console.log(sss);
-
-
+			
 
 
      		ss[ss_count] = ss[0];
@@ -869,7 +899,9 @@ else if(check4 == true){
 
 
 
-
+console.log(arySABX);
+console.log(arySABY);
+console.log(arySCD);
 
 
 
