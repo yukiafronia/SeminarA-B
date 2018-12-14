@@ -92,6 +92,9 @@ var SSAX,SSAY,SSBX,SSBY,SSCX,SSCY,SSDX,SSDY;
 
 var SSX,SSY;
 
+//select時に土地を描画
+var SL = new Array(5);
+
 
 <!--座標を入力（DBから取得できるようにする予定）-->
 
@@ -129,6 +132,14 @@ SCY = 1;
 SDX = 1;
 SDY = 1;
 
+SSAX = Number(SAX);
+SSAY = Number(SAY);
+SSBX = Number(SBX);
+SSBY = Number(SBY);
+SSCX = Number(SCX);
+SSCY = Number(SCY);
+SSDX = Number(SDX);
+SSDY = Number(SDY);
 
 
 <!--飛行間隔を変数に格納（ページ上で変更できるようにする予定）-->
@@ -187,6 +198,9 @@ var path;
 var poly1;
 var path1;
 
+var poly2;
+var path2;
+
 $(function(){
 	initialize();
 	$("#run").click(function(){
@@ -212,7 +226,185 @@ function initialize() {
 
 }
 
+function address_write(){
 
+	if (poly2) {
+		poly2.setMap(null);
+	}
+
+	var add1 = document.form2.add1;
+
+	var num = add1.selectedIndex;
+
+	var str = add1.options[num].value;
+
+	if(str == 1){
+		AX = 35.369566;
+		AY = 139.416746;
+		BX = 35.371196;
+		BY = 139.416907;
+		CX = 35.369529;
+		CY = 139.41531;
+		DX = 35.371196;
+		DY = 139.415712;
+	}
+
+	else if(str == 2){
+		AX = 35.469566;
+		AY = 139.516746;
+		BX = 35.471196;
+		BY = 139.516907;
+		CX = 35.469529;
+		CY = 139.51531;
+		DX = 35.471196;
+		DY = 139.515712;
+	}
+
+	else if(str == 3){
+		AX = 35.369138;
+		AY = 139.404543;
+		BX = 35.369483;
+		BY = 139.404811;
+		CX = 35.369491;
+		CY = 139.403897;
+		DX = 35.369775;
+		DY = 139.40422;
+	}
+
+	else if(str == 4){
+		AX = 35.366417;
+		AY = 139.395683;
+		BX = 35.36686;
+		BY = 139.395483;
+		CX = 35.366273;
+		CY = 139.395137;
+		DX = 35.366708;
+		DY = 139.394962;
+	}
+
+	else if(str == 5){
+		AX = 35.369993;
+		AY = 139.402994;
+		BX = 35.370428;
+		BY = 139.403088;
+		CX = 35.370098;
+		CY = 139.402631;
+		DX = 35.370507;
+		DY = 139.402704;
+	}
+
+	else if(str == 6){
+		AX = 35.358563;
+		AY = 139.387626;
+		BX = 35.359022;
+		BY = 139.387641;
+		CX = 35.358591;
+		CY = 139.38704;
+		DX = 35.359061;
+		DY = 139.387052;
+	}
+
+	else if(str == 7){
+		AX = 35.353567;
+		AY = 139.32701;
+		BX = 35.354038;
+		BY = 139.327028;
+		CX = 35.353569;
+		CY = 139.326207;
+		DX = 35.354022;
+		DY = 139.326204;
+	}
+
+	else if(str == 8){
+		AX = 35.361201;
+		AY = 139.312349;
+		BX = 35.361996;
+		BY = 139.312443;
+		CX = 35.361224;
+		CY = 139.310752;
+		DX = 35.362003;
+		DY = 139.310757;
+	}
+
+	else if(str == 9){
+		AX = 35.329438;
+		AY = 139.374994;
+		BX = 35.329773;
+		BY = 139.374937;
+		CX = 35.329375;
+		CY = 139.37466;
+		DX = 35.329782;
+		DY = 139.37458;
+	}
+
+	else if(str == 10){
+		AX = 35.322367;
+		AY = 139.379153;
+		BX = 35.322679;
+		BY = 139.379027;
+		CX = 35.322292;
+		CY = 139.378867;
+		DX = 35.322633;
+		DY = 139.378825;
+	}
+
+
+
+
+
+
+	for(var i = 0; i < 5; i++){
+		if(i == 0){
+			SL[i] = AX + ',' + AY;
+		}
+		else if(i == 1){
+			SL[i] = BX + ',' + BY;
+		}
+		else if(i == 2){
+			SL[i] = DX + ',' + DY;
+		}
+		else if(i == 3){
+			SL[i] = CX + ',' + CY;
+		}
+		else if(i == 4){
+			SL[i] = AX + ',' + AY;
+		}
+	}
+
+
+
+	console.log(SL);
+
+	var polyOptions2 = {
+			strokeColor: '#33FF33',
+			strokeOpacity: 0.8,
+			strokeWeight: 3
+		}
+		poly2 = new google.maps.Polyline(polyOptions2);
+		poly2.setMap(map);
+
+
+		//最終データが改行で終了している場合を考慮しundefinedか否かを判定する
+		var len1 = 0;
+		for(var i=0; i < SL.length; i++){
+			if((typeof SL[i] === "undefined") || (SL[i] === "")){
+				break;
+			}else{
+				len1 ++;
+			}
+		}
+
+		path2 = poly2.getPath();
+		var bounds2 = new google.maps.LatLngBounds();
+		var latLngArry2 = [];
+		for(var i=0; i < len1; i++){
+			var wLatLng = new google.maps.LatLng(SL[i].split(",")[0], SL[i].split(",")[1]);
+			path2.push(wLatLng);
+			bounds2.extend(wLatLng);
+			latLngArry2[i] = wLatLng;
+		}
+		map.fitBounds(bounds2);
+}
 
 
 //クリックした地点の座標を配列へ入れる
@@ -333,6 +525,8 @@ function initialize() {
      			}
      		}
 
+     		/*
+
 	     	console.log(SAX);
 			console.log(SAY);
 	     	console.log(SBX);
@@ -351,6 +545,8 @@ function initialize() {
 	     	console.log(typeof SDX);
 	     	console.log(typeof SDY);
 
+	     	*/
+
 	     	SSAX = Number(SAX);
 	     	SSAY = Number(SAY);
 	     	SSBX = Number(SBX);
@@ -360,8 +556,6 @@ function initialize() {
 	     	SSDX = Number(SDX);
 	     	SSDY = Number(SDY);
 
-	     	console.log(SSAX);
-	     	console.log(typeof SSAX);
 
      		console.log(sss);
 			
@@ -445,35 +639,6 @@ function dist_calc(){
 
 
 
-var add1 = document.form2.add1;
-
-var num = add1.selectedIndex;
-
-var str = add1.options[num].value;
-
-console.log(str);
-
-if(str == 1){
-	AX = 35.369566;
-	AY = 139.416746;
-	BX = 35.371196;
-	BY = 139.416907;
-	CX = 35.369529;
-	CY = 139.41531;
-	DX = 35.371196;
-	DY = 139.415712;
-}
-
-else if(str == 2){
-	AX = 35.469566;
-	AY = 139.516746;
-	BX = 35.471196;
-	BY = 139.516907;
-	CX = 35.469529;
-	CY = 139.51531;
-	DX = 35.471196;
-	DY = 139.515712;
-}
 
 
 
@@ -583,6 +748,11 @@ arySCDY[0] = SSCY;
 
 <!--配列に10mごとの座標を追加-->
 
+console.log(AY);
+console.log(BY);
+console.log(AX);
+console.log(CX);
+
 while(i <= kyori_h){
 	aryABX[i] = aryABX[i-1]+ABX_h; //一つ前の配列の座標に変動値を追加
 	aryABY[i] = aryABY[i-1]+ABY_h;
@@ -591,10 +761,19 @@ while(i <= kyori_h){
 
 
 	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
-	if(aryABX[i] > BX)aryABX[i] = BX;
-	if(aryABY[i] > BY)aryABY[i] = BY;
-	if(aryCDX[i] > DX)aryCDX[i] = DX;
-	if(aryCDY[i] > DY)aryCDY[i] = DY;
+
+	if(AY > BY){
+		if(aryABX[i] > BX)aryABX[i] = BX;
+		if(aryABY[i] < BY)aryABY[i] = BY;
+		if(aryCDX[i] > DX)aryCDX[i] = DX;
+		if(aryCDY[i] < DY)aryCDY[i] = DY;
+	}
+	else if(BY > AY){
+		if(aryABX[i] > BX)aryABX[i] = BX;
+		if(aryABY[i] > BY)aryABY[i] = BY;
+		if(aryCDX[i] > DX)aryCDX[i] = DX;
+		if(aryCDY[i] > DY)aryCDY[i] = DY;
+	}
 
 
 	i++;
@@ -607,10 +786,32 @@ while(i2 <= kyori_h2){
 	aryDBX[i2] = aryDBX[i2-1]+DBX_h;
 	aryDBY[i2] = aryDBY[i2-1]+DBY_h;
 
-	if(aryCAX[i2] > AX)aryCAX[i2] = AX;
-	if(aryCAY[i2] > AY)aryCAY[i2] = AY;
-	if(aryDBX[i2] > BX)aryDBX[i2] = BX;
-	if(aryDBY[i2] > BY)aryDBY[i2] = BY;
+
+	if(CX > AX){
+		if(aryCAX[i2] < AX)aryCAX[i2] = AX;
+		if(aryCAY[i2] > AY)aryCAY[i2] = AY;
+		if(aryDBY[i2] > BY)aryDBY[i2] = BY;
+
+		if(BX > DX){
+			if(aryDBX[i2] > BX)aryDBX[i2] = BX;
+		}
+		else if(DX > BX){
+			if(aryDBX[i2] < BX)aryDBX[i2] = BX;
+		}
+	}
+	else if(AX > CX){
+		if(aryCAY[i2] > AY)aryCAY[i2] = AY;
+		if(aryDBY[i2] > BY)aryDBY[i2] = BY;
+		if(aryCAX[i2] > AX)aryCAX[i2] = AX;
+
+		if(BX > DX){
+			if(aryDBX[i2] > BX)aryDBX[i2] = BX;
+		}
+		else if(DX > BX){
+			if(aryDBX[i2] < BX)aryDBX[i2] = BX;
+		}
+	}
+
 
 	//console.log(aryCAX[i2]);
 	i2++;
@@ -625,11 +826,25 @@ while(i3 <= Skyori_h){
 
 
 	//ルートが範囲外にならないように超えた場合は強制的に座標を書き換える
+	/*
 	if(arySABX[i3] > SBX)arySABX[i3] = SSBX;
 	if(arySABY[i3] > SBY)arySABY[i3] = SSBY;
 	if(arySCDX[i3] > SDX)arySCDX[i3] = SSDX;
 	if(arySCDY[i3] > SDY)arySCDY[i3] = SSDY;
+	*/
 
+	if(AY > BY){
+		if(arySABX[i3] > SBX)arySABX[i3] = SSBX;
+		if(arySABY[i3] < SBY)arySABY[i3] = SSBY;
+		if(arySCDX[i3] > SDX)arySCDX[i3] = SSDX;
+		if(arySCDY[i3] < SDY)arySCDY[i3] = SSDY;
+	}
+	else if(BY > AY){
+		if(arySABX[i3] > SBX)arySABX[i3] = SSBX;
+		if(arySABY[i3] > SBY)arySABY[i3] = SSBY;
+		if(arySCDX[i3] > SDX)arySCDX[i3] = SSDX;
+		if(arySCDY[i3] > SDY)arySCDY[i3] = SSDY;
+	}
 
 	i3++;
 }
@@ -1088,10 +1303,18 @@ function clr(){
 </form>
 
 <form name="form2">
-	<select id="add1">
-		<option value="1">住所1</option>
-		<option value="2">住所2</option>
-		<option value="3">住所3</option>
+	<select id="add1" onChange="address_write()">
+		<option value="0" selected>選択してください</option>
+		<option value="1">文教大学</option>
+		<option value="3">神奈川県茅ケ崎市下寺尾</option>
+		<option value="4">神奈川県茅ケ崎市行谷</option>
+		<option value="5">神奈川県高座郡寒川町岡田</option>
+		<option value="6">神奈川県高座郡寒川町一之宮９丁目３６</option>
+		<option value="7">神奈川県茅ケ崎市中島</option>
+		<option value="8">神奈川県茅ケ崎市柳島
+			神奈川県茅ケ崎市柳島</option>
+		<option value="9">神奈川県藤沢市打戻</option>
+		<option value="10">神奈川県藤沢市芹沢</option>
 	</select>
 </form>
 
